@@ -65,31 +65,23 @@ export default function LoginPage() {
         setShowUsername((prev) => !prev)
     }
 
-    function handleLogin() {
-        console.log('Username:', username)
-        console.log('Password:', password)
-        onChangeText('')
-        onChangeNumber('')
-        // Later, this function will send data to Firebase
-    }
-
     return (
         <SafeAreaProvider>
             <SafeAreaView style={{ marginTop: 100 }}>
                 <View style={styles.usernameContainer}>
                     <TextInput
-                        secureTextEntry={!showUsername}
+                        // secureTextEntry={!showUsername}
                         style={styles.input}
                         onChangeText={onChangeText}
-                        placeholder="Write username here"
+                        placeholder="Write email here"
                         value={username}
                     />
-                    <MaterialCommunityIcons
+                    {/* <MaterialCommunityIcons
                         name={showUsername ? 'eye-off' : 'eye'}
                         size={24}
                         color="#aaa"
                         onPress={toggleShowUsername}
-                    />
+                    /> */}
                 </View>
                 <View style={styles.passwordContainer}>
                     <TextInput
@@ -98,7 +90,7 @@ export default function LoginPage() {
                         onChangeText={onChangeNumber}
                         value={password}
                         placeholder="Write password here"
-                        keyboardType="numeric"
+                        // keyboardType="numeric"
                     />
                     <MaterialCommunityIcons
                         name={showPassword ? 'eye-off' : 'eye'}

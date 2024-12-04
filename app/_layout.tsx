@@ -4,7 +4,7 @@ import {
     ThemeProvider,
 } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
@@ -31,10 +31,14 @@ export default function RootLayout() {
     }, [])
 
     useEffect(() => {
-        if (loaded) {
-            SplashScreen.hideAsync()
+        if (loaded && user === null) {
+            router.replace('/') // Navigate to login screen when user is null
         }
-    }, [loaded])
+
+        if (loaded) {
+            SplashScreen.hideAsync() // Hide the splash screen once loaded
+        }
+    }, [loaded, user, router])
 
     if (!loaded) {
         return null
@@ -47,7 +51,6 @@ export default function RootLayout() {
             <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
                 <Stack.Screen name="+not-found" />
-                <Stack.Screen name="menu" />
             </Stack>
             <StatusBar style="auto" />
         </ThemeProvider>
