@@ -1,69 +1,25 @@
 import { ActivityIndicator, StyleSheet, TextInput } from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
-import { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Text, View, Button } from 'react-native'
-import { FirebaseError } from 'firebase/app'
-import { FIREBASE_AUTH } from '@/firebase/firebase'
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-} from 'firebase/auth'
-import { useRouter } from 'expo-router'
-signInWithEmailAndPassword
+import { View, Button } from 'react-native'
+import { useLogin } from '@/hooks/useLogin'
+import styles from '../styles/loginStyles'
 
 export default function LoginPage() {
-    const [username, onChangeText] = useState('')
-    const [password, onChangeNumber] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
-    const [showUsername, setShowUsername] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const router = useRouter()
-    const auth = FIREBASE_AUTH
-
-    const signUp = async () => {
-        setLoading(true)
-        try {
-            const response = await createUserWithEmailAndPassword(
-                auth,
-                username,
-                password
-            )
-            console.log(response)
-            alert('check your emails')
-        } catch (error: any) {
-            const err = error as FirebaseError
-            alert('Registration failed: ' + err.message)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const signIn = async () => {
-        setLoading(true)
-        try {
-            const response = await signInWithEmailAndPassword(
-                auth,
-                username,
-                password
-            )
-            console.log(response)
-            router.replace('/menu')
-        } catch (error: any) {
-            const err = error as FirebaseError
-            alert('Sign in failed: ' + err.message)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    function toggleShowPassword() {
-        setShowPassword((prev) => !prev)
-    }
-
-    function toggleShowUsername() {
-        setShowUsername((prev) => !prev)
-    }
+    const {
+        username,
+        password,
+        showPassword,
+        showUsername,
+        loading,
+        router,
+        toggleShowPassword,
+        toggleShowUsername,
+        signIn,
+        signUp,
+        onChangeNumber,
+        onChangeText,
+    } = useLogin()
 
     return (
         <SafeAreaProvider>
@@ -111,33 +67,3 @@ export default function LoginPage() {
         </SafeAreaProvider>
     )
 }
-
-const styles = StyleSheet.create({
-    buttons: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
-    passwordContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-    },
-    usernameContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-    },
-})

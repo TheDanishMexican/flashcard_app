@@ -1,26 +1,24 @@
-import FlashCard from '@/interfaces/flashCard'
-import React, { useState } from 'react'
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native'
+import { useFlashCardForm } from '@/hooks/useFlashCardForm'
+import { View, TextInput, Button, Text } from 'react-native'
+import styles from '../styles/flashCardFormStyles'
+import FlashCardFormProps from '@/interfaces/flashcardFormProps'
+import { Picker } from '@react-native-picker/picker'
+import Class from '@/interfaces/class'
 
-export default function FlashCardForm() {
-    const [flashCard, setFlashCard] = useState<FlashCard>({
-        id: '',
-        question: '',
-        answer: '',
-        subject: '',
-        class: '',
-    })
-
-    function handleInputChange(name: string, value: string) {
-        setFlashCard((prevCard) => ({
-            ...prevCard,
-            [name]: value,
-        }))
-    }
-
-    function handleSubmit() {
-        console.log('FlashCard Created:', flashCard)
-    }
+export default function FlashCardForm({
+    toggleForm,
+    classes,
+    handleFormSubmit,
+}: FlashCardFormProps) {
+    const {
+        handleInputChange,
+        flashCard,
+        handleClassSelected,
+        handleSubjectSelected,
+        subjects,
+        selectedClass,
+        handleSubmit,
+    } = useFlashCardForm()
 
     return (
         <View style={styles.container}>
@@ -39,44 +37,50 @@ export default function FlashCardForm() {
                 value={flashCard.answer}
                 onChangeText={(text) => handleInputChange('answer', text)}
             />
+            <View style={styles.pickerContainer}>
+                <Picker
+                    style={styles.picker}
+                    placeholder="Select a class"
+                    onValueChange={(selectedClass: Class) =>
+                        handleClassSelected(selectedClass)
+                    }
+                >
+                    <Picker.Item label="Select a class" value={null} />
+                    {classes.map((cls) => (
+                        <Picker.Item
+                            key={cls.name}
+                            label={cls.name}
+                            value={cls}
+                        />
+                    ))}
+                </Picker>
+            </View>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Enter Subject"
-                value={flashCard.subject}
-                onChangeText={(text) => handleInputChange('subject', text)}
+            {selectedClass && (
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        style={styles.picker}
+                        onValueChange={(selectedSubject: string) =>
+                            handleSubjectSelected(selectedSubject)
+                        }
+                    >
+                        <Picker.Item label="Select a subject" value={null} />
+                        {subjects?.map((subject) => (
+                            <Picker.Item
+                                key={subject}
+                                label={subject}
+                                value={subject}
+                            />
+                        ))}
+                    </Picker>
+                </View>
+            )}
+
+            <Button
+                title="Create FlashCard"
+                onPress={() => handleFormSubmit(flashCard)}
             />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Enter Class"
-                value={flashCard.class}
-                onChangeText={(text) => handleInputChange('class', text)}
-            />
-
-            <Button title="Create FlashCard" onPress={handleSubmit} />
+            <Button title="Close" onPress={toggleForm} color="red" />
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginBottom: 15,
-        paddingLeft: 10,
-        borderRadius: 5,
-    },
-})

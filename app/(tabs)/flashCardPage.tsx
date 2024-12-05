@@ -1,36 +1,46 @@
 import FlashCardForm from '@/components/flashCardForm'
 import FlashCardFront from '@/components/flashCardFront'
 import FlashCard from '@/interfaces/flashCard'
-import { useEffect, useState, useCallback } from 'react'
 import { Button, StyleSheet, View } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFlashCardForm } from '@/hooks/useFlashCardForm'
+import styles from '../../styles/flashCardPageStyles'
+import Class from '@/interfaces/class'
+import Subject from '@/interfaces/subject'
+import { useFlashCardPage } from '@/hooks/useFlashCardPage'
 
 export default function FlashCardPage() {
-    const [showForm, setShowForm] = useState(false)
+    const { showForm, toggleForm, handleFormSubmit, flashCards } =
+        useFlashCardPage()
 
-    useFocusEffect(
-        useCallback(() => {
-            setShowForm(false)
-        }, [])
-    )
-
-    function toggleForm() {
-        setShowForm((prev) => !prev)
-    }
-
-    const example: FlashCard = {
+    const flashcardExample: FlashCard = {
         id: '123',
         question: 'What is ISO 27001?',
         answer: 'ISO 27001 is an international standard for information security management systems.',
-        subject: 'Information Security',
-        class: 'IT Governance',
+        subject: 'ISO',
+        class: 'IT Security',
     }
+
+    const subjectsExample: Subject[] = [
+        { name: 'ISO', flashcards: [flashcardExample] },
+        { name: 'Trees', flashcards: [flashcardExample] },
+        { name: 'React native', flashcards: [flashcardExample] },
+    ]
+
+    const classesExample: Class[] = [
+        { name: 'IT Security', subjects: subjectsExample },
+        { name: 'Datastructures', subjects: subjectsExample },
+        { name: 'Mobile development', subjects: subjectsExample },
+    ]
+
     return (
         <>
             <View style={styles.container}>
                 {!showForm ? (
                     <>
-                        <FlashCardFront flashcard={example} />
+                        {flashCards.map((crd) => (
+                            <FlashCardFront key={crd.id} flashcard={crd} />
+                        ))}
+
                         <View style={styles.buttonWrapper}>
                             <Button
                                 onPress={toggleForm}
@@ -39,24 +49,13 @@ export default function FlashCardPage() {
                         </View>
                     </>
                 ) : (
-                    <FlashCardForm />
+                    <FlashCardForm
+                        classes={classesExample}
+                        toggleForm={toggleForm}
+                        handleFormSubmit={handleFormSubmit}
+                    />
                 )}
             </View>
         </>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    buttonWrapper: {
-        marginTop: 20,
-        width: '100%',
-        paddingHorizontal: 40,
-        borderRadius: 5,
-        overflow: 'hidden', // To make the button look rounded
-    },
-})
