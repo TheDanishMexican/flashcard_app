@@ -1,16 +1,25 @@
 import FlashCardForm from '@/components/flashCardForm'
 import FlashCardFront from '@/components/flashCardFront'
 import FlashCard from '@/interfaces/flashCard'
-import { Button, StyleSheet, View } from 'react-native'
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
 import { useFlashCardForm } from '@/hooks/useFlashCardForm'
 import styles from '../../styles/flashCardPageStyles'
 import Class from '@/interfaces/class'
 import Subject from '@/interfaces/subject'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
+import { useState } from 'react'
 
 export default function FlashCardPage() {
-    const { showForm, toggleForm, handleFormSubmit, flashCards } =
-        useFlashCardPage()
+    const {
+        showForm,
+        toggleForm,
+        handleFormSubmit,
+        flashCards,
+        getFlashCards,
+    } = useFlashCardPage()
+
+    const [loading, setLoading] = useState(false)
+    const [tests, setTests] = useState<any[]>([])
 
     const flashcardExample: FlashCard = {
         id: '123',
@@ -32,19 +41,43 @@ export default function FlashCardPage() {
         { name: 'Mobile development', subjects: subjectsExample },
     ]
 
+    async function fetchFlashCards() {
+        setLoading(true)
+        // await new Promise((resolve) => setTimeout(resolve, 500))
+        const data: any = await getFlashCards()
+        setTests(data)
+        setLoading(false)
+    }
+
     return (
         <>
             <View style={styles.container}>
                 {!showForm ? (
                     <>
-                        {flashCards.map((crd) => (
-                            <FlashCardFront key={crd.id} flashcard={crd} />
-                        ))}
+                        {/*USE A FLATMAP FOR THE FLASHCARDS*/}
+
+                        {loading ? (
+                            <Text>Loading...</Text>
+                        ) : (
+                            <FlatList
+                                data={tests}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) => (
+                                    <FlashCardFront flashcard={item} />
+                                )}
+                            />
+                        )}
 
                         <View style={styles.buttonWrapper}>
                             <Button
                                 onPress={toggleForm}
                                 title="Create flashcard"
+                            />
+                        </View>
+                        <View style={styles.buttonWrapper}>
+                            <Button
+                                onPress={fetchFlashCards}
+                                title="See flashcards"
                             />
                         </View>
                     </>
