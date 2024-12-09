@@ -1,17 +1,13 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
-import { FIREBASE_AUTH } from '@/firebase/firebase'
+import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native'
+import { useAuth } from '../../context/authContext'
 
 export default function Menu() {
+    const { logout } = useAuth()
+
     return (
         <View style={styles.menu}>
             <Text>Menu</Text>
-            <Button
-                onPress={() => {
-                    console.log('pressed')
-                    FIREBASE_AUTH.signOut()
-                }}
-                title="Log out"
-            />
+            <Button onPress={logout} title="Log out" />
         </View>
     )
 }

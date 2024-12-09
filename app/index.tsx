@@ -59,8 +59,14 @@ export default function LoginPage() {
                     <ActivityIndicator size={'small'} style={{ margin: 28 }} />
                 ) : (
                     <View style={styles.buttons}>
-                        <Button title="Sign In" onPress={signIn} />
-                        <Button title="Sign up" onPress={signUp} />
+                        <Button
+                            title="Sign In"
+                            onPress={() => signIn(username, password)}
+                        />
+                        <Button
+                            title="Sign up"
+                            onPress={() => signUp(username, password)}
+                        />
                     </View>
                 )}
             </SafeAreaView>
