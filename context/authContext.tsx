@@ -14,7 +14,7 @@ import {
 } from 'firebase/auth'
 import { usePathname, useRouter } from 'expo-router'
 import { FirebaseError } from 'firebase/app'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
 
 // Create context
 const AuthContext = createContext<{
@@ -109,9 +109,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                     name: user.displayName || 'Anonymous', // Store user name
                     email: user.email || 'No email', // Store user email
                     createdAt: new Date(), // Timestamp of user creation
-                    flashcards: [], // Initialize an empty flashcards array
                 })
                 console.log('User document created')
+
+                // Create an empty flashcards collection for the user
+                const flashcardsRef = collection(FIREBASE_DB, 'flashcards')
+                // You can add default flashcards if you want
+                await addDoc(flashcardsRef, {
+                    userId: user.uid, // Link to the user's document
+                    // Optionally, initialize a first flashcard here
+                })
+                console.log('Flashcards collection initialized for the user')
             } else {
                 console.log('User document already exists')
             }

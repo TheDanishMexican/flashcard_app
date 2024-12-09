@@ -1,10 +1,12 @@
-import { collectionRef } from '@/firebase/firebase'
+import { useAuth } from '@/context/authContext'
+import { collectionRef, FIREBASE_DB } from '@/firebase/firebase'
 import FlashCard from '@/interfaces/flashCard'
 import { useFocusEffect } from 'expo-router'
-import { getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { useCallback, useState } from 'react'
 
 export function useFlashCardPage() {
+    const { user } = useAuth()
     const [showForm, setShowForm] = useState(false)
     const [flashCards, setFlashCards] = useState<FlashCard[]>([
         {
@@ -26,16 +28,26 @@ export function useFlashCardPage() {
     //remember to set a type on the flashcards later
     async function getFlashCards() {
         try {
-            const data = await getDocs(collectionRef)
-            let flashCards: any[] = []
-            data.docs.forEach((doc) => {
-                flashCards.push({ ...doc.data(), id: doc.id })
+            const q = query(
+                collection(FIREBASE_DB, 'flashcards'),
+                where('userId', '==', user?.uid) // Query flashcards for the specific user
+            )
+            const querySnapshot = await getDocs(q)
+            const flashcardsArr: any[] = []
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data()
+                const flashCard = { ...data, id: doc.id }
+                flashcardsArr.push(flashCard)
             })
-            return flashCards
+
+            return flashcardsArr
         } catch (error) {
             console.log('Error while getting flashcard from database: ', error)
         }
     }
+
+    async function getUserFlashCards(userId: string) {}
 
     function toggleForm() {
         setShowForm((prev) => !prev)

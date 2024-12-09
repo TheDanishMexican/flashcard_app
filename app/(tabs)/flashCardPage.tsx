@@ -43,8 +43,9 @@ export default function FlashCardPage() {
 
     async function fetchFlashCards() {
         setLoading(true)
-        // await new Promise((resolve) => setTimeout(resolve, 500))
+        // // await new Promise((resolve) => setTimeout(resolve, 500))
         const data: any = await getFlashCards()
+        tests.forEach((test) => console.log(test))
         setTests(data)
         setLoading(false)
     }
