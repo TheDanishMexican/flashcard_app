@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { User } from 'firebase/auth'
-import { FIREBASE_AUTH } from '@/firebase/firebase'
+import { FIREBASE_AUTH, FIREBASE_DB } from '@/firebase/firebase'
 import {
     onAuthStateChanged,
     createUserWithEmailAndPassword,
@@ -14,6 +14,7 @@ import {
 } from 'firebase/auth'
 import { usePathname, useRouter } from 'expo-router'
 import { FirebaseError } from 'firebase/app'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 // Create context
 const AuthContext = createContext<{
@@ -62,6 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 password
             )
             console.log(response)
+
+            await createUserDocumentIfNeeded()
+
             router.replace('/menu')
         } catch (error: any) {
             const err = error as FirebaseError
@@ -91,6 +95,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         FIREBASE_AUTH.signOut()
+    }
+
+    const createUserDocumentIfNeeded = async () => {
+        const user = FIREBASE_AUTH.currentUser // Get the current user
+        if (user) {
+            const userRef = doc(FIREBASE_DB, 'users', user.uid) // Reference to the user's document
+            const docSnap = await getDoc(userRef)
+
+            if (!docSnap.exists()) {
+                // If the user document doesn't exist, create it
+                await setDoc(userRef, {
+                    name: user.displayName || 'Anonymous', // Store user name
+                    email: user.email || 'No email', // Store user email
+                    createdAt: new Date(), // Timestamp of user creation
+                    flashcards: [], // Initialize an empty flashcards array
+                })
+                console.log('User document created')
+            } else {
+                console.log('User document already exists')
+            }
+        }
     }
 
     return (
