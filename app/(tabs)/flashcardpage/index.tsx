@@ -23,6 +23,7 @@ export default function FlashcardPage() {
         flashCards,
         fetchFlashCards,
         loading,
+        formClasses,
     } = useFlashCardPage()
 
     const flashcardExample: FlashCard = {
@@ -33,17 +34,17 @@ export default function FlashcardPage() {
         class: 'IT Security',
     }
 
-    const subjectsExample: Subject[] = [
-        { name: 'ISO', flashcards: [flashcardExample] },
-        { name: 'Trees', flashcards: [flashcardExample] },
-        { name: 'React native', flashcards: [flashcardExample] },
-    ]
+    // const subjectsExample: Subject[] = [
+    //     { name: 'ISO', flashcards: [flashcardExample] },
+    //     { name: 'Trees', flashcards: [flashcardExample] },
+    //     { name: 'React native', flashcards: [flashcardExample] },
+    // ]
 
-    const classesExample: Class[] = [
-        { name: 'IT Security', subjects: subjectsExample },
-        { name: 'Datastructures', subjects: subjectsExample },
-        { name: 'Mobile development', subjects: subjectsExample },
-    ]
+    // const classesExample: Class[] = [
+    //     { id: '123', name: 'IT Security', subjects: subjectsExample },
+    //     { id: '1234', name: 'Datastructures', subjects: subjectsExample },
+    //     { id: '1235', name: 'Mobile development', subjects: subjectsExample },
+    // ]
 
     return (
         <>
@@ -75,7 +76,7 @@ export default function FlashcardPage() {
                     </>
                 ) : (
                     <FlashCardForm
-                        classes={classesExample}
+                        classes={formClasses}
                         toggleForm={toggleForm}
                         handleFormSubmit={handleFormSubmit}
                     />

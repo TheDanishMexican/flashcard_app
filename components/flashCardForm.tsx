@@ -18,10 +18,11 @@ export default function FlashCardForm({
         flashCard,
         handleClassSelected,
         handleSubjectSelected,
-        subjects,
         selectedClass,
+        subjectSelected,
     } = useFlashCardForm()
     const { user } = useAuth()
+
     const flashcardExample: FlashCard = {
         id: '123',
         question: 'What is ISO 27001?',
@@ -30,11 +31,11 @@ export default function FlashCardForm({
         class: 'IT Security',
     }
 
-    const subjectsExample: Subject[] = [
-        { name: 'ISO', flashcards: [flashcardExample] },
-        { name: 'Trees', flashcards: [flashcardExample] },
-        { name: 'React native', flashcards: [flashcardExample] },
-    ]
+    // const subjectsExample: Subject[] = [
+    //     { name: 'ISO', flashcards: [flashcardExample] },
+    //     { name: 'Trees', flashcards: [flashcardExample] },
+    //     { name: 'React native', flashcards: [flashcardExample] },
+    // ]
 
     return (
         <View style={styles.container}>
@@ -68,19 +69,33 @@ export default function FlashCardForm({
                     />
                     {classes.map((cls) => (
                         <Picker.Item
-                            key={cls.name}
+                            key={cls.id}
                             label={cls.name}
                             value={cls}
                         />
                     ))}
                 </Picker>
             </View>
+            {!selectedClass && (
+                <>
+                    <Text>OR</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Add a new class"
+                        value={flashCard.answer}
+                        onChangeText={(text) =>
+                            handleInputChange('answer', text)
+                        }
+                    />
+                </>
+            )}
 
             {selectedClass && (
                 <>
                     <View style={styles.pickerContainer}>
                         <Picker
                             style={styles.picker}
+                            selectedValue={subjectSelected || undefined}
                             onValueChange={(selectedSubject: string) => {
                                 handleSubjectSelected(selectedSubject)
                             }}
@@ -89,7 +104,7 @@ export default function FlashCardForm({
                                 label="Select a subject"
                                 value={null}
                             />
-                            {subjects?.map((subject) => (
+                            {selectedClass.subjects?.map((subject) => (
                                 <Picker.Item
                                     key={subject}
                                     label={subject}
@@ -101,7 +116,7 @@ export default function FlashCardForm({
                     <Text>OR</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter a new subject"
+                        placeholder="Add a new subject"
                         value={flashCard.answer}
                         onChangeText={(text) =>
                             handleInputChange('answer', text)

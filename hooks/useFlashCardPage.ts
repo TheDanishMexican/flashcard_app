@@ -118,5 +118,6 @@ export function useFlashCardPage() {
         getFlashCards,
         fetchFlashCards,
         loading,
+        formClasses,
     }
 }
