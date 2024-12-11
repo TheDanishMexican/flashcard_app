@@ -6,12 +6,13 @@ import { Picker } from '@react-native-picker/picker'
 import Class from '@/interfaces/class'
 import { useAuth } from '@/context/authContext'
 import FlashCard from '@/interfaces/flashCard'
-import Subject from '@/interfaces/subject'
 
 export default function FlashCardForm({
     toggleForm,
     classes,
     handleFormSubmit,
+    postNewClassForFlashcard,
+    postNewSubjectForClass,
 }: FlashCardFormProps) {
     const {
         handleInputChange,
@@ -23,19 +24,20 @@ export default function FlashCardForm({
     } = useFlashCardForm()
     const { user } = useAuth()
 
-    const flashcardExample: FlashCard = {
-        id: '123',
-        question: 'What is ISO 27001?',
-        answer: 'ISO 27001 is an international standard for information security management systems.',
-        subject: 'ISO',
-        class: 'IT Security',
+    function testInput(input: FlashCard) {
+        if (!classes.some((cls) => cls.name === input.class)) {
+            console.log(
+                'this is a new class that should be created with an empty subject array'
+            )
+        } else if (
+            !selectedClass?.subjects.some((sub) => sub === input.subject)
+        ) {
+            console.log(
+                'this is a new subject to be added to this class: ',
+                selectedClass
+            )
+        }
     }
-
-    // const subjectsExample: Subject[] = [
-    //     { name: 'ISO', flashcards: [flashcardExample] },
-    //     { name: 'Trees', flashcards: [flashcardExample] },
-    //     { name: 'React native', flashcards: [flashcardExample] },
-    // ]
 
     return (
         <View style={styles.container}>
@@ -82,9 +84,9 @@ export default function FlashCardForm({
                     <TextInput
                         style={styles.input}
                         placeholder="Add a new class"
-                        value={flashCard.answer}
+                        value={flashCard.class}
                         onChangeText={(text) =>
-                            handleInputChange('answer', text)
+                            handleInputChange('class', text)
                         }
                     />
                 </>
@@ -102,7 +104,7 @@ export default function FlashCardForm({
                         >
                             <Picker.Item
                                 label="Select a subject"
-                                value={null}
+                                value={'null'}
                             />
                             {selectedClass.subjects?.map((subject) => (
                                 <Picker.Item
@@ -113,21 +115,41 @@ export default function FlashCardForm({
                             ))}
                         </Picker>
                     </View>
-                    <Text>OR</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Add a new subject"
-                        value={flashCard.answer}
-                        onChangeText={(text) =>
-                            handleInputChange('answer', text)
-                        }
-                    />
+                    {!subjectSelected && (
+                        <>
+                            {selectedClass.subjects.length ? (
+                                <Text>OR</Text>
+                            ) : (
+                                <Text style={{ color: 'red' }}>
+                                    Class has no subjects
+                                </Text>
+                            )}
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Add a new subject"
+                                value={flashCard.subject}
+                                onChangeText={(text) =>
+                                    handleInputChange('subject', text)
+                                }
+                            />
+                        </>
+                    )}
                 </>
             )}
 
             <Button
                 title="Create FlashCard"
-                onPress={() => handleFormSubmit(flashCard, user!.uid)}
+                // onPress={() => handleFormSubmit(flashCard, user!.uid)}
+                // onPress={() =>
+                //     postNewClassForFlashcard(flashCard.class, user!.uid)
+                // }
+                onPress={() =>
+                    postNewSubjectForClass(
+                        flashCard.subject,
+                        flashCard.class,
+                        user!.uid
+                    )
+                }
             />
             <Button title="Close" onPress={toggleForm} color="red" />
         </View>

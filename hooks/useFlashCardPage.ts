@@ -1,9 +1,19 @@
 import { useAuth } from '@/context/authContext'
-import { flashcardsRef, FIREBASE_DB } from '@/firebase/firebase'
+import { flashcardsRef, FIREBASE_DB, classesRef } from '@/firebase/firebase'
 import Class from '@/interfaces/class'
 import FlashCard from '@/interfaces/flashCard'
 import { useFocusEffect } from 'expo-router'
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import {
+    addDoc,
+    arrayUnion,
+    collection,
+    doc,
+    Firestore,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+} from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
 
 export function useFlashCardPage() {
@@ -59,7 +69,7 @@ export function useFlashCardPage() {
 
     async function getFormClasses() {
         try {
-            const q = query(collection(FIREBASE_DB, 'classes'))
+            const q = query(classesRef)
             const querySnapshot = await getDocs(q)
             const formClassesArr: Class[] = []
 
@@ -109,6 +119,52 @@ export function useFlashCardPage() {
         }
     }
 
+    async function postNewClassForFlashcard(newClass: string, userId: string) {
+        try {
+            await addDoc(classesRef, {
+                name: newClass,
+                subjects: [],
+                userId,
+            })
+        } catch (error) {
+            console.log('Error while posting new class: ', error)
+        }
+    }
+
+    async function postNewSubjectForClass(
+        newSubject: string,
+        className: string,
+        userId: string
+    ) {
+        try {
+            const q = query(
+                classesRef,
+                where('name', '==', className),
+                where('userId', '==', userId)
+            )
+            const querySnapshot = await getDocs(q)
+
+            if (querySnapshot.empty) {
+                console.log(
+                    'No class found with the provided userId and class name'
+                )
+                return
+            }
+
+            const classDoc = querySnapshot.docs[0]
+            const ref = doc(FIREBASE_DB, 'classes', classDoc.id)
+
+            await updateDoc(ref, {
+                subjects: arrayUnion({ name: newSubject }),
+            })
+        } catch (error) {
+            console.log(
+                'error while adding new subject to existing class with given userId: ',
+                error
+            )
+        }
+    }
+
     return {
         toggleForm,
         useFocusEffect,
@@ -119,5 +175,7 @@ export function useFlashCardPage() {
         fetchFlashCards,
         loading,
         formClasses,
+        postNewClassForFlashcard,
+        postNewSubjectForClass,
     }
 }

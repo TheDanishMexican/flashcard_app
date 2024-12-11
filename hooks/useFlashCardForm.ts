@@ -34,6 +34,10 @@ export function useFlashCardForm() {
     }
 
     function handleSubjectSelected(subjectName: string) {
+        if (subjectName === 'null') {
+            setSubjectSelected(null)
+            return
+        }
         setSubjectSelected(subjectName)
         handleInputChange('subject', subjectSelected!)
     }

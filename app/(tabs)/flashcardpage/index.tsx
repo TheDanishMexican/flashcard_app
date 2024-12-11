@@ -24,6 +24,8 @@ export default function FlashcardPage() {
         fetchFlashCards,
         loading,
         formClasses,
+        postNewClassForFlashcard,
+        postNewSubjectForClass,
     } = useFlashCardPage()
 
     const flashcardExample: FlashCard = {
@@ -79,6 +81,8 @@ export default function FlashcardPage() {
                         classes={formClasses}
                         toggleForm={toggleForm}
                         handleFormSubmit={handleFormSubmit}
+                        postNewClassForFlashcard={postNewClassForFlashcard}
+                        postNewSubjectForClass={postNewSubjectForClass}
                     />
                 )}
             </View>
