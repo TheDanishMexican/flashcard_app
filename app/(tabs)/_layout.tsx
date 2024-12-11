@@ -1,6 +1,5 @@
 import { useAuth } from '@/context/authContext'
 import { Tabs } from 'expo-router'
-import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 export default function TabLayout() {
@@ -24,12 +23,14 @@ export default function TabLayout() {
                         name="menu"
                         options={{
                             title: 'Menu',
+                            headerShown: false,
                         }}
                     />
                     <Tabs.Screen
-                        name="flashCardPage"
+                        name="flashcardpage"
                         options={{
                             title: 'Flashcard Page',
+                            headerShown: false,
                         }}
                     />
                 </Tabs>

@@ -5,5 +5,5 @@ import Subject from './subject'
 export default interface FlashCardFormProps {
     toggleForm: () => void
     classes: Class[]
-    handleFormSubmit: (card: FlashCard) => void
+    handleFormSubmit: (card: FlashCard, userId: string) => void
 }

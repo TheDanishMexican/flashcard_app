@@ -1,5 +1,6 @@
-import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native'
+import { Button, Text, View } from 'react-native'
 import { useAuth } from '../../context/authContext'
+import styles from '@/styles/menuStyles'
 
 export default function Menu() {
     const { logout } = useAuth()
@@ -11,15 +12,3 @@ export default function Menu() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    menu: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-        marginTop: 100,
-    },
-})

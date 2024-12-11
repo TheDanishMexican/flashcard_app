@@ -1,25 +1,29 @@
 import FlashCardForm from '@/components/flashCardForm'
 import FlashCardFront from '@/components/flashCardFront'
 import FlashCard from '@/interfaces/flashCard'
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
-import { useFlashCardForm } from '@/hooks/useFlashCardForm'
-import styles from '../../styles/flashCardPageStyles'
+import {
+    ActivityIndicator,
+    Button,
+    FlatList,
+    Pressable,
+    Text,
+    View,
+} from 'react-native'
+import styles from '../../../styles/flashCardPageStyles'
 import Class from '@/interfaces/class'
 import Subject from '@/interfaces/subject'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
-import { useState } from 'react'
+import { Link } from 'expo-router'
 
-export default function FlashCardPage() {
+export default function FlashcardPage() {
     const {
         showForm,
         toggleForm,
         handleFormSubmit,
         flashCards,
-        getFlashCards,
+        fetchFlashCards,
+        loading,
     } = useFlashCardPage()
-
-    const [loading, setLoading] = useState(false)
-    const [tests, setTests] = useState<any[]>([])
 
     const flashcardExample: FlashCard = {
         id: '123',
@@ -41,45 +45,32 @@ export default function FlashCardPage() {
         { name: 'Mobile development', subjects: subjectsExample },
     ]
 
-    async function fetchFlashCards() {
-        setLoading(true)
-        // // await new Promise((resolve) => setTimeout(resolve, 500))
-        const data: any = await getFlashCards()
-        tests.forEach((test) => console.log(test))
-        setTests(data)
-        setLoading(false)
-    }
-
     return (
         <>
             <View style={styles.container}>
                 {!showForm ? (
                     <>
-                        {/*USE A FLATMAP FOR THE FLASHCARDS*/}
-
-                        {loading ? (
-                            <Text>Loading...</Text>
-                        ) : (
-                            <FlatList
-                                data={tests}
-                                keyExtractor={(item) => item.id}
-                                renderItem={({ item }) => (
-                                    <FlashCardFront flashcard={item} />
-                                )}
-                            />
-                        )}
-
                         <View style={styles.buttonWrapper}>
                             <Button
                                 onPress={toggleForm}
                                 title="Create flashcard"
                             />
                         </View>
-                        <View style={styles.buttonWrapper}>
-                            <Button
-                                onPress={fetchFlashCards}
-                                title="See flashcards"
-                            />
+                        <View>
+                            <Link
+                                href={{
+                                    pathname:
+                                        '/(tabs)/flashcardpage/listRenderer',
+                                    params: { test: 'test123' },
+                                }}
+                                asChild
+                            >
+                                <Pressable>
+                                    <Text style={styles.buttonWrapper}>
+                                        See flashcards
+                                    </Text>
+                                </Pressable>
+                            </Link>
                         </View>
                     </>
                 ) : (

@@ -1,43 +1,38 @@
 import { useAuth } from '@/context/authContext'
-import { collectionRef, FIREBASE_DB } from '@/firebase/firebase'
+import { flashcardsRef, FIREBASE_DB } from '@/firebase/firebase'
+import Class from '@/interfaces/class'
 import FlashCard from '@/interfaces/flashCard'
 import { useFocusEffect } from 'expo-router'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { useCallback, useState } from 'react'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import { useCallback, useEffect, useState } from 'react'
 
 export function useFlashCardPage() {
     const { user } = useAuth()
+    const [loading, setLoading] = useState(false)
     const [showForm, setShowForm] = useState(false)
-    const [flashCards, setFlashCards] = useState<FlashCard[]>([
-        {
-            id: '123',
-            question: 'What is ISO 27001?',
-            answer: 'ISO 27001 is an international standard for information security management systems.',
-            subject: 'ISO',
-            class: 'IT Security',
-        },
-        {
-            id: '124',
-            question: 'What is ISO 27001?',
-            answer: 'ISO 27001 is an international standard for information security management systems.',
-            subject: 'ISO',
-            class: 'IT Security',
-        },
-    ])
+    const [flashCards, setFlashCards] = useState<FlashCard[]>([])
+    const [formClasses, setFormClasses] = useState<Class[]>([])
 
-    //remember to set a type on the flashcards later
+    async function fetchFlashCards() {
+        setLoading(true)
+        //apparently data could be undefined or empty arr even though I have error handling so I need the conditional for typescript to be happy
+        const data: FlashCard[] = (await getFlashCards()) || []
+        setFlashCards(data)
+        setLoading(false)
+    }
+
     async function getFlashCards() {
         try {
             const q = query(
                 collection(FIREBASE_DB, 'flashcards'),
-                where('userId', '==', user?.uid) // Query flashcards for the specific user
+                where('userId', '==', user?.uid)
             )
             const querySnapshot = await getDocs(q)
-            const flashcardsArr: any[] = []
+            const flashcardsArr: FlashCard[] = []
 
             querySnapshot.forEach((doc) => {
-                const data = doc.data()
-                const flashCard = { ...data, id: doc.id }
+                const data = doc.data() as FlashCard
+                const flashCard: FlashCard = { ...data, id: doc.id }
                 flashcardsArr.push(flashCard)
             })
 
@@ -47,7 +42,41 @@ export function useFlashCardPage() {
         }
     }
 
-    async function getUserFlashCards(userId: string) {}
+    async function fetchFormClasses() {
+        setLoading(true)
+        const data: Class[] = (await getFormClasses()) || []
+        setFormClasses(data)
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        async function loadClasses() {
+            await fetchFormClasses()
+        }
+
+        loadClasses()
+    }, [])
+
+    async function getFormClasses() {
+        try {
+            const q = query(collection(FIREBASE_DB, 'classes'))
+            const querySnapshot = await getDocs(q)
+            const formClassesArr: Class[] = []
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data() as Class
+                const formClass: Class = { ...data, id: doc.id }
+                formClassesArr.push(formClass)
+            })
+
+            return formClassesArr
+        } catch (error) {
+            console.log(
+                'Error while getting formClasses from database: ',
+                error
+            )
+        }
+    }
 
     function toggleForm() {
         setShowForm((prev) => !prev)
@@ -55,14 +84,29 @@ export function useFlashCardPage() {
 
     useFocusEffect(
         useCallback(() => {
+            setFlashCards([])
             setShowForm(false)
         }, [])
     )
 
-    function handleFormSubmit(newFlashCard: FlashCard) {
-        console.log(newFlashCard)
-        setFlashCards((prevFlashCards) => [...prevFlashCards, newFlashCard])
+    async function handleFormSubmit(flashCard: FlashCard, userId: string) {
+        await postFlashCard(flashCard, userId)
         toggleForm()
+    }
+
+    async function postFlashCard(flashCard: FlashCard, userId: string) {
+        try {
+            const docRef = await addDoc(flashcardsRef, {
+                question: flashCard.question,
+                answer: flashCard.answer,
+                class: flashCard.class,
+                subject: flashCard.subject,
+                userId,
+            })
+            console.log('Flashcard added with ID:', docRef.id)
+        } catch (error) {
+            console.error('Error while posting flashcard:', error)
+        }
     }
 
     return {
@@ -72,5 +116,7 @@ export function useFlashCardPage() {
         handleFormSubmit,
         flashCards,
         getFlashCards,
+        fetchFlashCards,
+        loading,
     }
 }

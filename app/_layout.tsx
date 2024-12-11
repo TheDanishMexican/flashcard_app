@@ -1,4 +1,4 @@
-import { AuthProvider, useAuth } from '@/context/authContext'
+import { AuthProvider } from '@/context/authContext'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import 'react-native-reanimated'
@@ -10,6 +10,10 @@ export default function RootLayout() {
                 <Stack>
                     <Stack.Screen
                         name="(tabs)"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="index"
                         options={{ headerShown: false }}
                     />
                 </Stack>

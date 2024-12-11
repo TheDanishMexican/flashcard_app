@@ -6,6 +6,7 @@ import Class from '@/interfaces/class'
 export function useFlashCardForm() {
     const [selectedClass, setSelectedClass] = useState<Class | null>(null)
     const [subjects, setSubjects] = useState<string[] | null>(null)
+    const [subjectSelected, setSubjectSelected] = useState(false)
     const [flashCard, setFlashCard] = useState<FlashCard>({
         id: '',
         question: '',
@@ -21,12 +22,12 @@ export function useFlashCardForm() {
         }))
     }
 
-    function handleSubmit() {
-        console.log('FlashCard Created:', flashCard)
-        // setFlashCards((prevFlashCards) => [...prevFlashCards, flashCard])
-    }
-
     function handleClassSelected(selectedClass: Class) {
+        if (selectedClass.name === 'null') {
+            setSelectedClass(null)
+            return
+        }
+
         handleInputChange('class', selectedClass.name)
         setSelectedClass(selectedClass)
         const subjectNames = selectedClass.subjects.map(
@@ -42,7 +43,6 @@ export function useFlashCardForm() {
     return {
         flashCard,
         handleInputChange,
-        handleSubmit,
         handleClassSelected,
         handleSubjectSelected,
         subjects,
