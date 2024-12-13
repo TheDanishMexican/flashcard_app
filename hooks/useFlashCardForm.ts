@@ -14,6 +14,44 @@ export function useFlashCardForm() {
         subject: '',
         class: '',
     })
+    const [errors, setErrors] = useState({
+        question: '',
+        answer: '',
+        class: '',
+        errorsExist: false,
+    })
+
+    function validateInput() {
+        let validationErrors = {
+            question: '',
+            answer: '',
+            class: '',
+            errorsExist: false,
+        }
+
+        if (flashCard.question === '') {
+            validationErrors.question = 'Fill out please'
+            validationErrors.errorsExist = true
+        }
+
+        if (flashCard.answer === '') {
+            validationErrors.answer = 'Fill out please'
+            validationErrors.errorsExist = true
+        }
+
+        if (flashCard.class === '') {
+            validationErrors.class = 'Select or fill out please'
+            validationErrors.errorsExist = true
+        }
+
+        setErrors(validationErrors)
+
+        if (validationErrors.errorsExist) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     function handleInputChange(name: string, value: string) {
         setFlashCard((prevCard) => ({
@@ -49,5 +87,8 @@ export function useFlashCardForm() {
         handleSubjectSelected,
         selectedClass,
         subjectSelected,
+        errors,
+        setErrors,
+        validateInput,
     }
 }

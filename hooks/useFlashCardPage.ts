@@ -88,6 +88,10 @@ export function useFlashCardPage() {
         }
     }
 
+    useEffect(() => {
+        fetchFlashCards()
+    }, [])
+
     function toggleForm() {
         setShowForm((prev) => !prev)
     }
@@ -106,6 +110,28 @@ export function useFlashCardPage() {
 
     async function postFlashCard(flashCard: FlashCard, userId: string) {
         try {
+            let classExists = false
+            let subjectExists = false
+            const matchingClass = formClasses.find(
+                (cls) => cls.name === flashCard.class
+            )
+
+            //Add class to DB if it does not already exist
+            matchingClass
+                ? (classExists = true)
+                : await postNewClassForFlashcard(flashCard.class, userId)
+
+            //Add subject to class if it does not already exist on that classes subject array
+            if (classExists) {
+                matchingClass!.subjects.some((sub) => sub === flashCard.subject)
+                    ? (subjectExists = true)
+                    : await postNewSubjectForClass(
+                          flashCard.subject,
+                          flashCard.class,
+                          userId
+                      )
+            }
+
             const docRef = await addDoc(flashcardsRef, {
                 question: flashCard.question,
                 answer: flashCard.answer,

@@ -1,9 +1,11 @@
 import { useAuth } from '@/context/authContext'
-import { Tabs } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import { Platform } from 'react-native'
 
 export default function TabLayout() {
     const { user } = useAuth()
+    const router = useRouter()
+
     return (
         <>
             {user && (

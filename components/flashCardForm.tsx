@@ -6,6 +6,7 @@ import { Picker } from '@react-native-picker/picker'
 import Class from '@/interfaces/class'
 import { useAuth } from '@/context/authContext'
 import FlashCard from '@/interfaces/flashCard'
+import { useState } from 'react'
 
 export default function FlashCardForm({
     toggleForm,
@@ -21,63 +22,117 @@ export default function FlashCardForm({
         handleSubjectSelected,
         selectedClass,
         subjectSelected,
+        errors,
+        setErrors,
+        validateInput,
     } = useFlashCardForm()
     const { user } = useAuth()
 
-    function testInput(input: FlashCard) {
-        if (!classes.some((cls) => cls.name === input.class)) {
-            console.log(
-                'this is a new class that should be created with an empty subject array'
-            )
-        } else if (
-            !selectedClass?.subjects.some((sub) => sub === input.subject)
-        ) {
-            console.log(
-                'this is a new subject to be added to this class: ',
-                selectedClass
-            )
+    function createBtnClicked() {
+        if (validateInput()) {
+            return
         }
+
+        handleFormSubmit(flashCard, user!.uid)
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Create a FlashCard</Text>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Enter Question"
-                value={flashCard.question}
-                onChangeText={(text) => handleInputChange('question', text)}
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Enter Answer"
-                value={flashCard.answer}
-                onChangeText={(text) => handleInputChange('answer', text)}
-            />
-            <View style={styles.pickerContainer}>
-                <Picker
-                    style={styles.picker}
-                    onValueChange={(selectedClass: Class) =>
-                        handleClassSelected(selectedClass)
-                    }
-                >
-                    <Picker.Item
-                        label="Select a class"
-                        value={{
-                            name: 'null',
-                        }}
+            {errors.question === '' ? (
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Question"
+                    value={flashCard.question}
+                    onChangeText={(text) => handleInputChange('question', text)}
+                />
+            ) : (
+                <>
+                    <Text style={{ color: 'red' }}>Please fill out</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter Question"
+                        value={flashCard.question}
+                        onChangeText={(text) =>
+                            handleInputChange('question', text)
+                        }
                     />
-                    {classes.map((cls) => (
+                </>
+            )}
+
+            {errors.answer === '' ? (
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Answer"
+                    value={flashCard.answer}
+                    onChangeText={(text) => handleInputChange('answer', text)}
+                />
+            ) : (
+                <>
+                    <Text style={{ color: 'red' }}>Please fill out</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter Answer"
+                        value={flashCard.answer}
+                        onChangeText={(text) =>
+                            handleInputChange('answer', text)
+                        }
+                    />
+                </>
+            )}
+            {errors.class === '' ? (
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        style={styles.picker}
+                        onValueChange={(selectedClass: Class) =>
+                            handleClassSelected(selectedClass)
+                        }
+                    >
                         <Picker.Item
-                            key={cls.id}
-                            label={cls.name}
-                            value={cls}
+                            label="Select a class"
+                            value={{
+                                name: 'null',
+                            }}
                         />
-                    ))}
-                </Picker>
-            </View>
+                        {classes.map((cls) => (
+                            <Picker.Item
+                                key={cls.id}
+                                label={cls.name}
+                                value={cls}
+                            />
+                        ))}
+                    </Picker>
+                </View>
+            ) : (
+                <>
+                    <Text style={{ color: 'red' }}>
+                        Please select or fill out
+                    </Text>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            style={styles.picker}
+                            onValueChange={(selectedClass: Class) =>
+                                handleClassSelected(selectedClass)
+                            }
+                        >
+                            <Picker.Item
+                                label="Select a class"
+                                value={{
+                                    name: 'null',
+                                }}
+                            />
+                            {classes.map((cls) => (
+                                <Picker.Item
+                                    key={cls.id}
+                                    label={cls.name}
+                                    value={cls}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
+                </>
+            )}
             {!selectedClass && (
                 <>
                     <Text>OR</Text>
@@ -139,17 +194,12 @@ export default function FlashCardForm({
 
             <Button
                 title="Create FlashCard"
-                // onPress={() => handleFormSubmit(flashCard, user!.uid)}
-                // onPress={() =>
-                //     postNewClassForFlashcard(flashCard.class, user!.uid)
-                // }
-                onPress={() =>
-                    postNewSubjectForClass(
-                        flashCard.subject,
-                        flashCard.class,
-                        user!.uid
-                    )
-                }
+                onPress={() => {
+                    if (validateInput()) {
+                        return
+                    }
+                    handleFormSubmit(flashCard, user!.uid)
+                }}
             />
             <Button title="Close" onPress={toggleForm} color="red" />
         </View>
