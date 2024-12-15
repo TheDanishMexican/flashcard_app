@@ -71,7 +71,7 @@ export default function LoginPage() {
                     style={styles.button}
                     onPress={() => signInBtnClicked(email, password)}
                 >
-                    <Text style={{ color: 'white' }}>Sign in</Text>
+                    <Text style={{ color: 'white' }}>Log in</Text>
                 </Pressable>
                 <Link
                     href={{

@@ -1,10 +1,11 @@
+import React from 'react'
 import { useAuth } from '@/context/authContext'
 import { Tabs, useRouter } from 'expo-router'
 import { Platform } from 'react-native'
+import { FontAwesome } from '@expo/vector-icons'
 
 export default function TabLayout() {
     const { user } = useAuth()
-    const router = useRouter()
 
     return (
         <>
@@ -14,7 +15,6 @@ export default function TabLayout() {
                         headerShown: false,
                         tabBarStyle: Platform.select({
                             ios: {
-                                // Use a transparent background on iOS to show the blur effect
                                 position: 'absolute',
                             },
                             default: {},
@@ -24,15 +24,31 @@ export default function TabLayout() {
                     <Tabs.Screen
                         name="menu"
                         options={{
-                            title: 'Menu',
-                            headerShown: false,
+                            title: '',
+                            headerShown: true,
+                            tabBarLabel: 'Menu',
+                            tabBarIcon: ({ color, size }) => (
+                                <FontAwesome
+                                    size={28}
+                                    name="home"
+                                    color={color}
+                                />
+                            ),
                         }}
                     />
                     <Tabs.Screen
                         name="flashcardpage"
                         options={{
-                            title: 'Flashcard Page',
-                            headerShown: false,
+                            title: '',
+                            headerShown: true,
+                            tabBarLabel: 'Flashcards',
+                            tabBarIcon: ({ color, size }) => (
+                                <FontAwesome
+                                    name="file-o"
+                                    size={22}
+                                    color={color}
+                                />
+                            ),
                         }}
                     />
                 </Tabs>

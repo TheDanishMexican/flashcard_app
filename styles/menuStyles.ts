@@ -1,14 +1,29 @@
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
-    menu: {
-        flexDirection: 'column',
-        alignItems: 'center',
+    container: {
+        flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-        marginTop: 100,
+        alignItems: 'center',
+        padding: 16,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 24,
+    },
+    button: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 10,
+        color: 'white',
+        textAlign: 'center',
+    },
+    buttonCtn: {
+        width: '100%',
     },
 })
 
