@@ -14,6 +14,7 @@ import Class from '@/interfaces/class'
 import Subject from '@/interfaces/subject'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
 import { Link } from 'expo-router'
+import SuccessMessage from '@/components/successMessage'
 
 export default function FlashcardPage() {
     const {
@@ -26,31 +27,14 @@ export default function FlashcardPage() {
         formClasses,
         postNewClassForFlashcard,
         postNewSubjectForClass,
+        flashCardCreated,
+        setFlashcardCreated,
     } = useFlashCardPage()
-
-    const flashcardExample: FlashCard = {
-        id: '123',
-        question: 'What is ISO 27001?',
-        answer: 'ISO 27001 is an international standard for information security management systems.',
-        subject: 'ISO',
-        class: 'IT Security',
-    }
-
-    // const subjectsExample: Subject[] = [
-    //     { name: 'ISO', flashcards: [flashcardExample] },
-    //     { name: 'Trees', flashcards: [flashcardExample] },
-    //     { name: 'React native', flashcards: [flashcardExample] },
-    // ]
-
-    // const classesExample: Class[] = [
-    //     { id: '123', name: 'IT Security', subjects: subjectsExample },
-    //     { id: '1234', name: 'Datastructures', subjects: subjectsExample },
-    //     { id: '1235', name: 'Mobile development', subjects: subjectsExample },
-    // ]
 
     return (
         <>
             <View style={styles.container}>
+                {flashCardCreated && <SuccessMessage />}
                 {!showForm ? (
                     <>
                         <View style={styles.buttonWrapper}>
@@ -81,8 +65,6 @@ export default function FlashcardPage() {
                         classes={formClasses}
                         toggleForm={toggleForm}
                         handleFormSubmit={handleFormSubmit}
-                        postNewClassForFlashcard={postNewClassForFlashcard}
-                        postNewSubjectForClass={postNewSubjectForClass}
                     />
                 )}
             </View>

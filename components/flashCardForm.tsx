@@ -5,15 +5,11 @@ import FlashCardFormProps from '@/interfaces/flashcardFormProps'
 import { Picker } from '@react-native-picker/picker'
 import Class from '@/interfaces/class'
 import { useAuth } from '@/context/authContext'
-import FlashCard from '@/interfaces/flashCard'
-import { useState } from 'react'
 
 export default function FlashCardForm({
     toggleForm,
     classes,
     handleFormSubmit,
-    postNewClassForFlashcard,
-    postNewSubjectForClass,
 }: FlashCardFormProps) {
     const {
         handleInputChange,
@@ -28,17 +24,9 @@ export default function FlashCardForm({
     } = useFlashCardForm()
     const { user } = useAuth()
 
-    function createBtnClicked() {
-        if (validateInput()) {
-            return
-        }
-
-        handleFormSubmit(flashCard, user!.uid)
-    }
-
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Create a FlashCard</Text>
+            <Text style={styles.title}>Create a flashcard</Text>
 
             {errors.question === '' ? (
                 <TextInput

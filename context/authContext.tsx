@@ -5,7 +5,7 @@ import {
     ReactNode,
     useEffect,
 } from 'react'
-import { User } from 'firebase/auth'
+import { updateProfile, User } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@/firebase/firebase'
 import {
     onAuthStateChanged,
@@ -21,13 +21,13 @@ const AuthContext = createContext<{
     user: User | null
     loading: boolean
     signIn: (email: string, password: string) => void
-    signUp: (email: string, password: string) => void
+    signUp: (email: string, password: string, name: string) => Promise<void>
     logout: () => void
 }>({
     user: null,
     loading: true,
     signIn: () => {},
-    signUp: () => {},
+    signUp: async () => {},
     logout: () => {},
 })
 
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string, name: string) => {
         setLoading(true)
         try {
             const response = await createUserWithEmailAndPassword(
@@ -83,11 +83,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 email,
                 password
             )
+
+            await updateProfile(response.user, {
+                displayName: name,
+            })
             console.log(response)
             alert('Check your emails')
         } catch (error: any) {
             const err = error as FirebaseError
-            alert('Registration failed: ' + err.message)
+            console.log('Registration failed: ' + err.message)
+            throw err
         } finally {
             setLoading(false)
         }

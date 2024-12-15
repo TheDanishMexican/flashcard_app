@@ -16,6 +16,10 @@ export default function RootLayout() {
                         name="index"
                         options={{ headerShown: false }}
                     />
+                    <Stack.Screen
+                        name="signupPage"
+                        options={{ headerShown: true }}
+                    />
                 </Stack>
                 <StatusBar style="auto" />
             </AuthProvider>

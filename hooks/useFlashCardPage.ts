@@ -22,6 +22,7 @@ export function useFlashCardPage() {
     const [showForm, setShowForm] = useState(false)
     const [flashCards, setFlashCards] = useState<FlashCard[]>([])
     const [formClasses, setFormClasses] = useState<Class[]>([])
+    const [flashCardCreated, setFlashcardCreated] = useState(false)
 
     async function fetchFlashCards() {
         setLoading(true)
@@ -140,9 +141,18 @@ export function useFlashCardPage() {
                 userId,
             })
             console.log('Flashcard added with ID:', docRef.id)
+            showSuccessMessage()
         } catch (error) {
             console.error('Error while posting flashcard:', error)
         }
+    }
+
+    function showSuccessMessage() {
+        setFlashcardCreated(true)
+
+        setTimeout(() => {
+            setFlashcardCreated(false)
+        }, 1000)
     }
 
     async function postNewClassForFlashcard(newClass: string, userId: string) {
@@ -203,5 +213,7 @@ export function useFlashCardPage() {
         formClasses,
         postNewClassForFlashcard,
         postNewSubjectForClass,
+        setFlashcardCreated,
+        flashCardCreated,
     }
 }

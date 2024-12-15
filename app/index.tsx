@@ -1,9 +1,17 @@
-import { ActivityIndicator, StyleSheet, TextInput } from 'react-native'
+import {
+    ActivityIndicator,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+} from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { View, Button } from 'react-native'
 import { useLogin } from '@/hooks/useLogin'
 import styles from '../styles/loginStyles'
+import { Link } from 'expo-router'
+import { useAuth } from '@/context/authContext'
 
 export default function LoginPage() {
     const {
@@ -16,7 +24,6 @@ export default function LoginPage() {
         toggleShowPassword,
         toggleShowUsername,
         signIn,
-        signUp,
         onChangeNumber,
         onChangeText,
     } = useLogin()
@@ -63,10 +70,17 @@ export default function LoginPage() {
                             title="Sign In"
                             onPress={() => signIn(username, password)}
                         />
-                        <Button
-                            title="Sign up"
-                            onPress={() => signUp(username, password)}
-                        />
+                        <Link
+                            href={{
+                                params: { emailParam: username },
+                                pathname: '/signupPage',
+                            }}
+                            asChild
+                        >
+                            <Pressable>
+                                <Text>Sign up</Text>
+                            </Pressable>
+                        </Link>
                     </View>
                 )}
             </SafeAreaView>
