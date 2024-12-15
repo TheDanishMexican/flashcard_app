@@ -1,3 +1,4 @@
+import React from 'react'
 import { AuthProvider } from '@/context/authContext'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -14,11 +15,15 @@ export default function RootLayout() {
                     />
                     <Stack.Screen
                         name="index"
-                        options={{ headerShown: false }}
+                        options={{ headerShown: true, title: 'Flashcard app' }}
                     />
                     <Stack.Screen
                         name="signupPage"
-                        options={{ headerShown: true }}
+                        options={{
+                            headerShown: true,
+                            title: '',
+                            headerStyle: '',
+                        }}
                     />
                 </Stack>
                 <StatusBar style="auto" />

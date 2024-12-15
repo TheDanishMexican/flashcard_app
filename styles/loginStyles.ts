@@ -1,32 +1,37 @@
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
-    buttons: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     input: {
         height: 40,
-        margin: 12,
+        borderColor: '#ccc',
         borderWidth: 1,
+        marginBottom: 16,
+        paddingHorizontal: 8,
+        width: '100%',
+        borderRadius: 4,
+        backgroundColor: '#fff',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+    },
+    button: {
+        backgroundColor: 'blue',
         padding: 10,
-    },
-    passwordContainer: {
-        flexDirection: 'row',
+        borderRadius: 5,
+        width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
+        marginTop: 10,
     },
-    usernameContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
-        paddingHorizontal: 14,
+    buttonCtn: {
+        width: '100%',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 24,
     },
 })
 

@@ -21,6 +21,11 @@ export function useSignUp() {
         password: string,
         name: string
     ) {
+        setErrors((prev) => ({
+            ...prev,
+            errorsExist: false,
+        }))
+
         try {
             if (name === '') {
                 throw {
@@ -34,11 +39,9 @@ export function useSignUp() {
             setSuccesMessage(true)
             setTimeout(() => {
                 router.replace('/')
-            }, 1000)
+            }, 2000)
         } catch (error) {
             handleError(error as FirebaseError)
-
-            // console.log('Error while signing up: ', error)
         }
     }
 

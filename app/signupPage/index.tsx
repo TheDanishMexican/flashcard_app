@@ -1,4 +1,11 @@
-import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
+import {
+    Text,
+    View,
+    TextInput,
+    Button,
+    StyleSheet,
+    Pressable,
+} from 'react-native'
 import SuccessMessage from '@/components/successMessage'
 import { useSignUp } from '@/hooks/useSignUp'
 
@@ -19,8 +26,11 @@ export default function SignupPage() {
         <View style={styles.container}>
             <Text style={styles.title}>Sign Up</Text>
             {errors.errorsExist && (
-                <Text style={{ color: 'red' }}>{errors.firebaseError}</Text>
+                <Text style={{ color: 'red', marginBottom: 10 }}>
+                    {errors.firebaseError}
+                </Text>
             )}
+            {successMessage && <SuccessMessage />}
             <TextInput
                 style={styles.input}
                 placeholder="Enter your name"
@@ -40,22 +50,26 @@ export default function SignupPage() {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button
-                title="Sign Up"
-                onPress={() => signUpBtnClicked(email, password, name)}
-            />
-            {successMessage && <SuccessMessage />}
+            <View style={styles.buttonCtn}>
+                <Pressable
+                    onPress={() => signUpBtnClicked(email, password, name)}
+                >
+                    <Text style={styles.button}>Sign up</Text>
+                </Pressable>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    buttonCtn: {
+        width: '100%',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#fff',
     },
     title: {
         fontSize: 24,
@@ -70,5 +84,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         width: '100%',
         borderRadius: 4,
+        backgroundColor: '#fff',
+    },
+    button: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 10,
+        color: 'white',
+        textAlign: 'center',
     },
 })

@@ -20,13 +20,13 @@ import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
 const AuthContext = createContext<{
     user: User | null
     loading: boolean
-    signIn: (email: string, password: string) => void
+    signIn: (email: string, password: string) => Promise<void>
     signUp: (email: string, password: string, name: string) => Promise<void>
     logout: () => void
 }>({
     user: null,
     loading: true,
-    signIn: () => {},
+    signIn: async () => {},
     signUp: async () => {},
     logout: () => {},
 })
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             router.replace('/menu')
         } catch (error: any) {
             const err = error as FirebaseError
-            alert('Sign in failed: ' + err.message)
+            throw err
         } finally {
             setLoading(false)
         }
@@ -87,8 +87,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             await updateProfile(response.user, {
                 displayName: name,
             })
+
             console.log(response)
-            alert('Check your emails')
         } catch (error: any) {
             const err = error as FirebaseError
             console.log('Registration failed: ' + err.message)
