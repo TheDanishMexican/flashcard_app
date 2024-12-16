@@ -1,19 +1,9 @@
+import React from 'react'
 import FlashCardForm from '@/components/flashCardForm'
-import FlashCardFront from '@/components/flashCardFront'
-import FlashCard from '@/interfaces/flashCard'
-import {
-    ActivityIndicator,
-    Button,
-    FlatList,
-    Pressable,
-    Text,
-    View,
-} from 'react-native'
+import { Button, Pressable, Text, View } from 'react-native'
 import styles from '../../../styles/flashCardPageStyles'
-import Class from '@/interfaces/class'
-import Subject from '@/interfaces/subject'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import SuccessMessage from '@/components/successMessage'
 
 export default function FlashcardPage() {
@@ -30,34 +20,33 @@ export default function FlashcardPage() {
         flashCardCreated,
         setFlashcardCreated,
     } = useFlashCardPage()
+    const router = useRouter()
 
     return (
         <>
             <View style={styles.container}>
-                {flashCardCreated && <SuccessMessage />}
+                {/* {flashCardCreated && <SuccessMessage />} */}
                 {!showForm ? (
                     <>
-                        <View style={styles.buttonWrapper}>
-                            <Button
-                                onPress={toggleForm}
-                                title="Create flashcard"
-                            />
+                        <View style={styles.buttonCtn}>
+                            <Pressable onPress={toggleForm}>
+                                <Text style={styles.button}>
+                                    Create flashcard
+                                </Text>
+                            </Pressable>
                         </View>
-                        <View>
-                            <Link
-                                href={{
-                                    pathname:
-                                        '/(tabs)/flashcardpage/listRenderer',
-                                    params: { test: 'test123' },
-                                }}
-                                asChild
+                        <View style={styles.buttonCtn}>
+                            <Pressable
+                                onPress={() =>
+                                    router.navigate(
+                                        '/flashcardpage/listRenderer'
+                                    )
+                                }
                             >
-                                <Pressable>
-                                    <Text style={styles.buttonWrapper}>
-                                        See flashcards
-                                    </Text>
-                                </Pressable>
-                            </Link>
+                                <Text style={styles.button}>
+                                    See flashcards
+                                </Text>
+                            </Pressable>
                         </View>
                     </>
                 ) : (

@@ -39,6 +39,7 @@ export default function TabLayout() {
                     <Tabs.Screen
                         name="flashcardpage"
                         options={{
+                            headerTransparent: false,
                             title: '',
                             headerShown: true,
                             tabBarLabel: 'Flashcards',

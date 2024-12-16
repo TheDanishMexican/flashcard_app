@@ -30,7 +30,7 @@ export default function LoginPage() {
                     {errors.firebaseError}
                 </Text>
             )}
-            {loading && <ActivityIndicator />}
+            {loading && <ActivityIndicator style={{ marginBottom: 10 }} />}
             <View
                 style={{
                     display: 'flex',

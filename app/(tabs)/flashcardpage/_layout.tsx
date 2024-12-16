@@ -1,3 +1,4 @@
+import React from 'react'
 import { Stack } from 'expo-router'
 
 export default function RootLayout() {
@@ -7,7 +8,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen
                     name="listRenderer"
-                    options={{ headerShown: true, title: 'Flashcards' }}
+                    options={{ headerShown: false, title: 'Flashcards' }}
                 />
             </Stack>
         </>

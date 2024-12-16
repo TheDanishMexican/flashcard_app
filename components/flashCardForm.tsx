@@ -1,3 +1,4 @@
+import React from 'react'
 import { useFlashCardForm } from '@/hooks/useFlashCardForm'
 import { View, TextInput, Button, Text } from 'react-native'
 import styles from '../styles/flashCardFormStyles'
@@ -151,9 +152,9 @@ export default function FlashCardForm({
                             />
                             {selectedClass.subjects?.map((subject) => (
                                 <Picker.Item
-                                    key={subject}
-                                    label={subject}
-                                    value={subject}
+                                    key={subject.name}
+                                    label={subject.name}
+                                    value={subject.name}
                                 />
                             ))}
                         </Picker>

@@ -124,7 +124,9 @@ export function useFlashCardPage() {
 
             //Add subject to class if it does not already exist on that classes subject array
             if (classExists) {
-                matchingClass!.subjects.some((sub) => sub === flashCard.subject)
+                matchingClass!.subjects.some(
+                    (sub) => sub.name === flashCard.subject
+                )
                     ? (subjectExists = true)
                     : await postNewSubjectForClass(
                           flashCard.subject,
