@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        width: '100%',
         justifyContent: 'center',
         backgroundColor: '#fff',
     },
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        height: 50,
         borderColor: '#ccc',
         borderWidth: 1,
         marginBottom: 15,
         paddingLeft: 10,
         borderRadius: 5,
+        width: '100%',
     },
     pickerContainer: {
         height: 50,
