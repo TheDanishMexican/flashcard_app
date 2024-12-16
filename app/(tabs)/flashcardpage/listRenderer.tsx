@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import FlashCardFront from '@/components/flashCardFront'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
 import FlashCard from '@/interfaces/flashCard'
@@ -11,6 +11,8 @@ import {
 } from 'react-native'
 import styles from '@/styles/listStyles'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useRootNavigationState, useRouter } from 'expo-router'
 
 export default function listRenderer() {
     const { flashCards, fetchFlashCards, loading } = useFlashCardPage()

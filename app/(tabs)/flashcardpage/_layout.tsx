@@ -1,7 +1,15 @@
-import React from 'react'
-import { Stack } from 'expo-router'
+import React, { useCallback } from 'react'
+import { Stack, useFocusEffect, useRouter } from 'expo-router'
 
 export default function RootLayout() {
+    const router = useRouter()
+
+    useFocusEffect(
+        useCallback(() => {
+            router.replace('/(tabs)/flashcardpage')
+        }, [])
+    )
+
     return (
         <>
             <Stack>
