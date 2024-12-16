@@ -46,7 +46,6 @@ export function useFlashCardPage() {
                 const flashCard: FlashCard = { ...data, id: doc.id }
                 flashcardsArr.push(flashCard)
             })
-
             return flashcardsArr
         } catch (error) {
             console.log('Error while getting flashcard from database: ', error)
@@ -89,17 +88,13 @@ export function useFlashCardPage() {
         }
     }
 
-    useEffect(() => {
-        fetchFlashCards()
-    }, [])
-
     function toggleForm() {
         setShowForm((prev) => !prev)
     }
 
     useFocusEffect(
         useCallback(() => {
-            setFlashCards([])
+            // setFlashCards([])
             setShowForm(false)
         }, [])
     )
@@ -174,6 +169,7 @@ export function useFlashCardPage() {
         className: string,
         userId: string
     ) {
+        if (newSubject === '') return
         try {
             const q = query(
                 classesRef,

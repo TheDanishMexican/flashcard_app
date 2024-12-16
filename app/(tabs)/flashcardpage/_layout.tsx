@@ -19,6 +19,10 @@ export default function RootLayout() {
                     name="listRenderer"
                     options={{ headerShown: false, title: 'Flashcards' }}
                 />
+                <Stack.Screen
+                    name="setListRenderer"
+                    options={{ headerShown: false, title: 'Flashcards' }}
+                />
             </Stack>
         </>
     )

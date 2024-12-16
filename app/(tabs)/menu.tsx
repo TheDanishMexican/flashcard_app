@@ -12,6 +12,12 @@ export default function Menu() {
                 <Pressable onPress={logout}>
                     <Text style={styles.button}>Log out</Text>
                 </Pressable>
+                <Pressable onPress={logout}>
+                    <Text style={styles.button}>User information</Text>
+                </Pressable>
+                <Pressable onPress={logout}>
+                    <Text style={styles.button}>Settings</Text>
+                </Pressable>
             </View>
         </View>
     )

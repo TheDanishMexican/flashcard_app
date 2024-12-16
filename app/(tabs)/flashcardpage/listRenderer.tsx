@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import FlashCardFront from '@/components/flashCardFront'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
 import FlashCard from '@/interfaces/flashCard'
@@ -6,55 +6,82 @@ import {
     ActivityIndicator,
     FlatList,
     Pressable,
+    SafeAreaView,
     Text,
     View,
 } from 'react-native'
 import styles from '@/styles/listStyles'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { useRootNavigationState, useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import FlashCardForm from '@/components/flashCardForm'
 
 export default function listRenderer() {
-    const { flashCards, fetchFlashCards, loading } = useFlashCardPage()
+    const {
+        flashCards,
+        fetchFlashCards,
+        loading,
+        toggleForm,
+        handleFormSubmit,
+        formClasses,
+        showForm,
+    } = useFlashCardPage()
+    const [localFlashcards, setLocalFlashcards] = useState<FlashCard[]>([])
+
+    const { setName } = useLocalSearchParams() as { setName: string }
+    const router = useRouter()
+
+    useEffect(() => {
+        const filtered = flashCards.filter((crd) => crd.class === setName)
+        setLocalFlashcards(filtered)
+    }, [flashCards, setName])
+
+    useEffect(() => {
+        fetchFlashCards()
+    }, [showForm])
 
     return (
-        <>
-            <SafeAreaView style={styles.container}>
-                {loading ? (
-                    <ActivityIndicator />
-                ) : (
-                    <>
-                        <View style={styles.titleCnt}>
-                            <Text style={styles.title}>Flash cards</Text>
+        <SafeAreaView style={styles.container}>
+            {showForm && (
+                <FlashCardForm
+                    classes={formClasses}
+                    toggleForm={toggleForm}
+                    handleFormSubmit={handleFormSubmit}
+                    categoryName={setName}
+                />
+            )}
+            {loading ? (
+                <ActivityIndicator />
+            ) : (
+                <>
+                    <View style={styles.buttonCtn}>
+                        <View>
+                            <Pressable onPress={() => router.back()}>
+                                <Text style={styles.button}>Go back</Text>
+                            </Pressable>
                         </View>
-                        <View style={styles.buttonCtn}>
-                            <View>
-                                <Pressable>
-                                    <Text style={styles.button}>Filter by</Text>
-                                </Pressable>
-                            </View>
-                            <View>
-                                <Pressable>
-                                    <Text style={styles.button}>
-                                        Select class/subject to filter by
-                                    </Text>
-                                </Pressable>
-                            </View>
+                        <View>
+                            <Pressable onPress={toggleForm}>
+                                <Text style={styles.button}>Add flashcard</Text>
+                            </Pressable>
                         </View>
-                        <View style={styles.listCnt}>
-                            <FlatList
-                                data={flashCards}
-                                keyExtractor={(item: FlashCard) => item.id}
-                                renderItem={({ item }) => (
-                                    <FlashCardFront flashcard={item} />
-                                )}
-                                showsVerticalScrollIndicator={false}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    </>
-                )}
-            </SafeAreaView>
-        </>
+                    </View>
+                    <View style={styles.titleCnt}>
+                        <Text style={styles.title}>
+                            "{setName}" - flashcards
+                        </Text>
+                    </View>
+                    <View style={styles.listCnt}>
+                        <FlatList
+                            data={localFlashcards}
+                            keyExtractor={(item: FlashCard) => item.id}
+                            renderItem={({ item }) => (
+                                <FlashCardFront flashcard={item} />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                </>
+            )}
+        </SafeAreaView>
     )
 }

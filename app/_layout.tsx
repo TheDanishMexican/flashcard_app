@@ -15,7 +15,7 @@ export default function RootLayout() {
                     />
                     <Stack.Screen
                         name="index"
-                        options={{ headerShown: true, title: 'Flashcard app' }}
+                        options={{ headerShown: true, title: '' }}
                     />
                     <Stack.Screen
                         name="signupPage"

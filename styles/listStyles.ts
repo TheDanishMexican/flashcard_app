@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginBottom: 10,
-
+        marginTop: 20,
         color: 'white',
         textAlign: 'center',
     },
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     listCnt: {
         marginTop: 10,
         flex: 1,
+        marginBottom: 50,
     },
 })
 

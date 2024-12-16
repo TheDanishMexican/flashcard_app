@@ -17,7 +17,6 @@ export function useFlashCardForm() {
     const [errors, setErrors] = useState({
         question: '',
         answer: '',
-        class: '',
         errorsExist: false,
     })
 
@@ -25,7 +24,6 @@ export function useFlashCardForm() {
         let validationErrors = {
             question: '',
             answer: '',
-            class: '',
             errorsExist: false,
         }
 
@@ -39,11 +37,6 @@ export function useFlashCardForm() {
             validationErrors.errorsExist = true
         }
 
-        if (flashCard.class === '') {
-            validationErrors.class = 'Select or fill out please'
-            validationErrors.errorsExist = true
-        }
-
         setErrors(validationErrors)
 
         if (validationErrors.errorsExist) {
@@ -51,6 +44,11 @@ export function useFlashCardForm() {
         } else {
             return false
         }
+    }
+
+    function handleError(error: any, functionName: any) {
+        console.log(error)
+        console.log('error happened here: ', functionName)
     }
 
     function handleInputChange(name: string, value: string) {
@@ -61,23 +59,34 @@ export function useFlashCardForm() {
     }
 
     function handleClassSelected(selectedClass: Class) {
-        setSubjectSelected(null)
-        if (selectedClass.name === 'null') {
-            setSelectedClass(null)
-            return
-        }
+        console.log('got to handleClassSelected')
+        console.log(selectedClass)
+        try {
+            setSubjectSelected(null)
+            if (selectedClass.name === 'null') {
+                setSelectedClass(null)
+                return
+            }
 
-        handleInputChange('class', selectedClass.name)
-        setSelectedClass(selectedClass)
+            handleInputChange('class', selectedClass.name)
+            setSelectedClass(selectedClass)
+        } catch (error) {
+            handleError(error, 'handleClassSelected')
+        }
     }
 
     function handleSubjectSelected(subjectName: string) {
-        if (subjectName === 'null') {
-            setSubjectSelected(null)
-            return
+        console.log('got to handleSubjectSelected')
+        try {
+            if (subjectName === 'null') {
+                setSubjectSelected(null)
+                return
+            }
+            setSubjectSelected(subjectName)
+            handleInputChange('subject', subjectSelected!)
+        } catch (error) {
+            handleError(error, 'handleSubjectSelected')
         }
-        setSubjectSelected(subjectName)
-        handleInputChange('subject', subjectSelected!)
     }
 
     return {

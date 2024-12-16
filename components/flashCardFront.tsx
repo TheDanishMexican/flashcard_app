@@ -4,6 +4,8 @@ import FlashCardBack from './flashCardBack'
 import { useEffect, useState } from 'react'
 import { useFlashCardFront } from '@/hooks/useFlashCardFront'
 import styles from '../styles/flashCardFrontStyles'
+import React from 'react'
+import { FontAwesome } from '@expo/vector-icons'
 
 export default function FlashCardFront({
     flashcard,
@@ -13,10 +15,6 @@ export default function FlashCardFront({
     const { toggleFlip, isFlipped, hasSubject, setHasSubject } =
         useFlashCardFront()
 
-    useEffect(() => {
-        flashcard.subject != '' ? setHasSubject(true) : setHasSubject(false)
-    }, [])
-
     return (
         <>
             {!isFlipped ? (
@@ -24,9 +22,11 @@ export default function FlashCardFront({
                     <Text style={styles.questionText}>
                         {flashcard.question}
                     </Text>
-                    {!hasSubject && (
-                        <Text style={{ color: 'red' }}>Add subject</Text>
-                    )}
+                    <FontAwesome
+                        style={{ textAlign: 'center' }}
+                        name="info-circle"
+                        size={34}
+                    />
                 </Pressable>
             ) : (
                 <Pressable onPress={toggleFlip}>
