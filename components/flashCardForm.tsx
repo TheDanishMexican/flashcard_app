@@ -26,7 +26,7 @@ export default function FlashCardForm({
         validateInput,
     } = useFlashCardForm()
     const { user } = useAuth()
-    const [modalVisible, setModalVisible] = useState(true)
+    const [modalVisible, setModalVisible] = useState(false)
     function toggleModal() {
         setModalVisible((prev) => !prev)
     }
@@ -38,28 +38,35 @@ export default function FlashCardForm({
                     <Text style={styles.title}>Create a flashcard</Text>
                     <Pressable onPress={toggleModal}>
                         <FontAwesome
-                            style={{ textAlign: 'center', marginBottom: 10 }}
+                            style={{ textAlign: 'center' }}
                             name="info-circle"
                             size={34}
                         />
+                        <Text style={{ textAlign: 'center', marginBottom: 10 }}>
+                            Click me
+                        </Text>
                     </Pressable>
                 </View>
 
                 {modalVisible && <ExplainText toggleModal={toggleModal} />}
 
                 {errors.question === '' ? (
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter Question"
-                        value={flashCard.question}
-                        multiline={true}
-                        onChangeText={(text) =>
-                            handleInputChange('question', text)
-                        }
-                    />
+                    <>
+                        <Text>Question</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter Question"
+                            value={flashCard.question}
+                            multiline={true}
+                            onChangeText={(text) =>
+                                handleInputChange('question', text)
+                            }
+                        />
+                    </>
                 ) : (
                     <>
                         <Text style={{ color: 'red' }}>Please fill out</Text>
+                        <Text>Question</Text>
                         <TextInput
                             style={styles.input}
                             multiline={true}
@@ -73,18 +80,22 @@ export default function FlashCardForm({
                 )}
 
                 {errors.answer === '' ? (
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter Answer"
-                        value={flashCard.answer}
-                        multiline={true}
-                        onChangeText={(text) =>
-                            handleInputChange('answer', text)
-                        }
-                    />
+                    <>
+                        <Text>Answer</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter Answer"
+                            value={flashCard.answer}
+                            multiline={true}
+                            onChangeText={(text) =>
+                                handleInputChange('answer', text)
+                            }
+                        />
+                    </>
                 ) : (
                     <>
                         <Text style={{ color: 'red' }}>Please fill out</Text>
+                        <Text>Answer</Text>
                         <View>
                             <TextInput
                                 style={styles.input}
@@ -99,33 +110,8 @@ export default function FlashCardForm({
                     </>
                 )}
                 {errors.class === '' ? (
-                    <View style={styles.pickerContainer}>
-                        <Picker
-                            style={styles.picker}
-                            onValueChange={(selectedClass: Class) =>
-                                handleClassSelected(selectedClass)
-                            }
-                        >
-                            <Picker.Item
-                                label="Select a class"
-                                value={{
-                                    name: 'null',
-                                }}
-                            />
-                            {classes.map((cls) => (
-                                <Picker.Item
-                                    key={cls.id}
-                                    label={cls.name}
-                                    value={cls}
-                                />
-                            ))}
-                        </Picker>
-                    </View>
-                ) : (
                     <>
-                        <Text style={{ color: 'red' }}>
-                            Please select or fill out
-                        </Text>
+                        <Text>Category</Text>
                         <View style={styles.pickerContainer}>
                             <Picker
                                 style={styles.picker}
@@ -134,7 +120,36 @@ export default function FlashCardForm({
                                 }
                             >
                                 <Picker.Item
-                                    label="Select a class"
+                                    label="Select a category"
+                                    value={{
+                                        name: 'null',
+                                    }}
+                                />
+                                {classes.map((cls) => (
+                                    <Picker.Item
+                                        key={cls.id}
+                                        label={cls.name}
+                                        value={cls}
+                                    />
+                                ))}
+                            </Picker>
+                        </View>
+                    </>
+                ) : (
+                    <>
+                        <Text style={{ color: 'red' }}>
+                            Please select or fill out
+                        </Text>
+                        <Text>Category</Text>
+                        <View style={styles.pickerContainer}>
+                            <Picker
+                                style={styles.picker}
+                                onValueChange={(selectedClass: Class) =>
+                                    handleClassSelected(selectedClass)
+                                }
+                            >
+                                <Picker.Item
+                                    label="Select a category"
                                     value={{
                                         name: 'null',
                                     }}
@@ -155,7 +170,7 @@ export default function FlashCardForm({
                         <Text>OR</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Add a new class"
+                            placeholder="Add a new category"
                             value={flashCard.class}
                             onChangeText={(text) =>
                                 handleInputChange('class', text)
@@ -166,6 +181,7 @@ export default function FlashCardForm({
 
                 {selectedClass && (
                     <>
+                        <Text>Subject</Text>
                         <View style={styles.pickerContainer}>
                             <Picker
                                 style={styles.picker}
@@ -193,7 +209,7 @@ export default function FlashCardForm({
                                     <Text>OR</Text>
                                 ) : (
                                     <Text style={{ color: 'red' }}>
-                                        Class has no subjects
+                                        Category has no subjects
                                     </Text>
                                 )}
                                 <TextInput

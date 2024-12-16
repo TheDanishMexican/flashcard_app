@@ -11,17 +11,20 @@ export default function ExplainText({
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>
-                        The idea is that you create a flashcard by filling out
-                        the question first. Then you fill out the corresponding
-                        answer afterwards. You have to select a "class" for the
-                        subject. This is meant to be for filtering purposes,
-                        when you later want to study the flashcards. You can
-                        also add a subject within the class if you want to be
-                        able to filter further.
+                        {'\n'}1. Fill out the question. {'\n'}
+                        {'\n'}2. Fill out the answer. {'\n'}
+                        {'\n'}3. You have to select a category for the
+                        flashcard, you can select from the predefined categories
+                        or add a new one. {'\n'}
+                        {'\n'}4. You have the choice to add a subject for
+                        further filtering when you study the flashcards, but you
+                        do not have to.
                     </Text>
-                    <Pressable style={styles.button} onPress={toggleModal}>
-                        <Text style={styles.textStyle}>Close</Text>
-                    </Pressable>
+                    <View>
+                        <Pressable style={styles.button} onPress={toggleModal}>
+                            <Text style={styles.textStyle}>Close</Text>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </Modal>
@@ -33,13 +36,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
     },
     modalView: {
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#fff0f5',
         borderRadius: 20,
-        padding: 35,
+        padding: 20,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
@@ -51,10 +53,12 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     button: {
-        borderRadius: 20,
+        backgroundColor: 'blue',
         padding: 10,
-        elevation: 2,
-        backgroundColor: '#2196F3',
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 10,
     },
     textStyle: {
         color: 'white',
@@ -64,5 +68,7 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: 'center',
+        maxWidth: 250,
+        minWidth: 250,
     },
 })
