@@ -11,9 +11,9 @@ import {
     Modal,
 } from 'react-native'
 import styles from '../styles/flashCardFormStyles'
-import Class from '@/interfaces/class'
 import { useAuth } from '@/context/authContext'
 import categoryFormProps from '@/interfaces/categoryFormProps'
+import SuccessMessage from './successMessage'
 
 export default function CollectionForm({
     toggleForm,
@@ -24,10 +24,9 @@ export default function CollectionForm({
         handleInputChange,
         flashCard,
         collectionExists,
-        setCollectionExists,
         emptyInput,
-        setEmptyInput,
         validateInputCollectionForm,
+        succesMessage,
     } = useFlashCardForm()
     const { user } = useAuth()
 
@@ -37,6 +36,7 @@ export default function CollectionForm({
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={styles.container}>
                         <View>
+                            {succesMessage && <SuccessMessage />}
                             <Text style={styles.title}>
                                 Create new collection
                             </Text>
@@ -68,7 +68,10 @@ export default function CollectionForm({
                                     return
                                 }
                                 postNewCollection(flashCard.class, user!.uid)
-                                toggleForm()
+
+                                setTimeout(() => {
+                                    toggleForm()
+                                }, 2000)
                             }}
                         />
                         <Button

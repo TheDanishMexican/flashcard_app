@@ -12,11 +12,10 @@ import {
 } from 'react-native'
 import styles from '../styles/flashCardFormStyles'
 import FlashCardFormProps from '@/interfaces/flashcardFormProps'
-import { Picker } from '@react-native-picker/picker'
-import Class from '@/interfaces/class'
+
 import { useAuth } from '@/context/authContext'
-import { FontAwesome } from '@expo/vector-icons'
-import ExplainText from './explainText'
+
+import SuccessMessage from './successMessage'
 
 export default function FlashCardForm({
     toggleForm,
@@ -24,13 +23,16 @@ export default function FlashCardForm({
     handleFormSubmit,
     categoryName,
 }: FlashCardFormProps) {
-    const { handleInputChange, flashCard, errors, setErrors, validateInput } =
-        useFlashCardForm()
+    const {
+        handleInputChange,
+        flashCard,
+        errors,
+        setErrors,
+        validateInput,
+        succesMessage,
+        setSuccessMessage,
+    } = useFlashCardForm()
     const { user } = useAuth()
-    const [modalVisible, setModalVisible] = useState(false)
-    function toggleModal() {
-        setModalVisible((prev) => !prev)
-    }
 
     return (
         <>
@@ -38,6 +40,7 @@ export default function FlashCardForm({
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={styles.container}>
                         <View>
+                            {succesMessage && <SuccessMessage />}
                             <Text style={styles.title}>
                                 Create new flashcard
                             </Text>
@@ -248,6 +251,10 @@ export default function FlashCardForm({
                                 }
                                 flashCard.class = categoryName
                                 handleFormSubmit(flashCard, user!.uid)
+                                setSuccessMessage(true)
+                                setTimeout(() => {
+                                    toggleForm()
+                                }, 2000)
                             }}
                         />
                         <Button

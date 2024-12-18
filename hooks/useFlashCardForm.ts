@@ -5,6 +5,7 @@ import Class from '@/interfaces/class'
 import Subject from '@/interfaces/subject'
 
 export function useFlashCardForm() {
+    const [succesMessage, setSuccessMessage] = useState(false)
     const [collectionExists, setCollectionExists] = useState(false)
     const [emptyInput, setEmptyInput] = useState(false)
     const [selectedClass, setSelectedClass] = useState<Class | null>(null)
@@ -106,6 +107,12 @@ export function useFlashCardForm() {
             setEmptyInput(true)
             return false
         }
+
+        setCollectionExists(false)
+        setEmptyInput(false)
+
+        setSuccessMessage(true)
+        return true
     }
 
     return {
@@ -123,5 +130,7 @@ export function useFlashCardForm() {
         emptyInput,
         setEmptyInput,
         validateInputCollectionForm,
+        succesMessage,
+        setSuccessMessage,
     }
 }

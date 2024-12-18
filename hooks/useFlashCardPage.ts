@@ -7,6 +7,7 @@ import {
     addDoc,
     arrayUnion,
     collection,
+    deleteDoc,
     doc,
     Firestore,
     getDocs,
@@ -23,6 +24,26 @@ export function useFlashCardPage() {
     const [flashCards, setFlashCards] = useState<FlashCard[]>([])
     const [formClasses, setFormClasses] = useState<Class[]>([])
     const [flashCardCreated, setFlashcardCreated] = useState(false)
+    const [updateState, setUpdateState] = useState(false)
+
+    async function deleteCollection(collectionName: string, userId: string) {
+        try {
+            const q = query(
+                classesRef,
+                where('name', '==', collectionName),
+                where('userId', '==', userId)
+            )
+
+            const snapShot = await getDocs(q)
+
+            await deleteDoc(doc(FIREBASE_DB, 'classes', snapShot.docs[0].id))
+            setTimeout(() => {
+                setUpdateState((prev) => !prev)
+            }, 2000)
+        } catch (error) {
+            console.log('error while deleting: ', error)
+        }
+    }
 
     async function fetchFlashCards() {
         setLoading(true)
@@ -34,10 +55,7 @@ export function useFlashCardPage() {
 
     async function getFlashCards() {
         try {
-            const q = query(
-                collection(FIREBASE_DB, 'flashcards'),
-                where('userId', '==', user?.uid)
-            )
+            const q = query(flashcardsRef, where('userId', '==', user?.uid))
             const querySnapshot = await getDocs(q)
             const flashcardsArr: FlashCard[] = []
 
@@ -65,7 +83,7 @@ export function useFlashCardPage() {
         }
 
         loadClasses()
-    }, [showForm])
+    }, [showForm, updateState])
 
     async function getFormClasses() {
         try {
@@ -101,7 +119,6 @@ export function useFlashCardPage() {
 
     async function handleFormSubmit(flashCard: FlashCard, userId: string) {
         await postFlashCard(flashCard, userId)
-        toggleForm()
     }
 
     async function postFlashCard(flashCard: FlashCard, userId: string) {
@@ -138,18 +155,9 @@ export function useFlashCardPage() {
                 userId,
             })
             console.log('Flashcard added with ID:', docRef.id)
-            showSuccessMessage()
         } catch (error) {
             console.error('Error while posting flashcard:', error)
         }
-    }
-
-    function showSuccessMessage() {
-        setFlashcardCreated(true)
-
-        setTimeout(() => {
-            setFlashcardCreated(false)
-        }, 1000)
     }
 
     async function postNewClassForFlashcard(newClass: string, userId: string) {
@@ -213,5 +221,7 @@ export function useFlashCardPage() {
         postNewSubjectForClass,
         setFlashcardCreated,
         flashCardCreated,
+        setLoading,
+        deleteCollection,
     }
 }

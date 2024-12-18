@@ -1,5 +1,5 @@
 import FlashCard from '@/interfaces/flashCard'
-import { Text, Pressable } from 'react-native'
+import { Text, Pressable, View } from 'react-native'
 import FlashCardBack from './flashCardBack'
 import { useEffect, useState } from 'react'
 import { useFlashCardFront } from '@/hooks/useFlashCardFront'
@@ -18,16 +18,18 @@ export default function FlashCardFront({
     return (
         <>
             {!isFlipped ? (
-                <Pressable onPress={toggleFlip} style={styles.card}>
+                <View style={styles.card}>
                     <Text style={styles.questionText}>
                         {flashcard.question}
                     </Text>
-                    <FontAwesome
-                        style={{ textAlign: 'center' }}
-                        name="info-circle"
-                        size={34}
-                    />
-                </Pressable>
+                    <Pressable onPress={toggleFlip}>
+                        <FontAwesome
+                            style={{ textAlign: 'center' }}
+                            name="info-circle"
+                            size={34}
+                        />
+                    </Pressable>
+                </View>
             ) : (
                 <Pressable onPress={toggleFlip}>
                     <FlashCardBack flashcard={flashcard} />

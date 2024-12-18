@@ -23,6 +23,7 @@ export default function listRenderer() {
         handleFormSubmit,
         formClasses,
         showForm,
+        setLoading,
     } = useFlashCardPage()
     const [localFlashcards, setLocalFlashcards] = useState<FlashCard[]>([])
 
@@ -71,6 +72,12 @@ export default function listRenderer() {
                             "{setName}" - flashcards
                         </Text>
                     </View>
+                    {!localFlashcards.length && (
+                        <Text style={{ color: 'red' }}>
+                            No flashcards in this collection, create one by
+                            clicking "create new flashcard"
+                        </Text>
+                    )}
                     <View style={styles.listCnt}>
                         <FlatList
                             data={localFlashcards}

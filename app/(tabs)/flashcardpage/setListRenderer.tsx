@@ -5,6 +5,7 @@ import {
     FlatList,
     Pressable,
     SafeAreaView,
+    StyleSheet,
     Text,
     View,
 } from 'react-native'
@@ -21,7 +22,9 @@ export default function setListRenderer() {
         showForm,
         toggleForm,
         postNewClassForFlashcard,
+        deleteCollection,
     } = useFlashCardPage()
+
     const router = useRouter()
     return (
         <>
@@ -61,10 +64,14 @@ export default function setListRenderer() {
                                 data={formClasses}
                                 keyExtractor={(category: Class) => category.id}
                                 renderItem={({ item }: { item: Class }) => (
-                                    <FlashcardSetItem category={item} />
+                                    <FlashcardSetItem
+                                        category={item}
+                                        deleteCollection={deleteCollection}
+                                    />
                                 )}
                                 showsVerticalScrollIndicator={false}
                                 showsHorizontalScrollIndicator={false}
+                                numColumns={2}
                             />
                         </View>
                     </>
