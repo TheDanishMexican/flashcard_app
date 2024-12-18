@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useFlashCardFront } from '@/hooks/useFlashCardFront'
 import styles from '../styles/flashCardFrontStyles'
 import React from 'react'
+import { useModal } from '@/hooks/useModal'
+import DynamicModal from './dynamicModal'
+import ModalDeleteFlashcard from './modalDeleteFlashcard'
 
 export default function FlashCardFront({
     flashcard,
@@ -15,6 +18,7 @@ export default function FlashCardFront({
 }) {
     const { toggleFlip, isFlipped, hasSubject, setHasSubject } =
         useFlashCardFront()
+    const { toggleModal, modalVisible, modalText } = useModal()
 
     const rotation = useRef(new Animated.Value(0)).current
     const isFlippeded = useRef(false)
@@ -53,10 +57,18 @@ export default function FlashCardFront({
                     },
                 ]}
             >
+                {modalVisible && (
+                    <ModalDeleteFlashcard
+                        toggleModal={toggleModal}
+                        modalText={flashcard.question}
+                        clickedDelete={clickedDelete}
+                        flashcardId={flashcard.id}
+                    />
+                )}
                 <Pressable
                     style={styles.deleteButton}
                     onPress={() => {
-                        clickedDelete(flashcard.id)
+                        toggleModal(flashcard.question)
                     }}
                 >
                     <Text style={styles.deleteButtonText}>X</Text>
@@ -79,14 +91,6 @@ export default function FlashCardFront({
                         },
                     ]}
                 >
-                    <Pressable
-                        style={styles.deleteButton}
-                        onPress={() => {
-                            clickedDelete(flashcard.id)
-                        }}
-                    >
-                        <Text style={styles.deleteButtonText}>X</Text>
-                    </Pressable>
                     <FlashCardBack
                         flashcard={flashcard}
                         toggleFloop={toggleFloop}

@@ -31,9 +31,11 @@ export default function listRenderer() {
 
     async function clickedDelete(id: string) {
         await deleteFlashCard(id)
-        setLocalFlashcards((prevFlashcards) =>
-            prevFlashcards.filter((flashCard) => flashCard.id !== id)
-        )
+        setTimeout(() => {
+            setLocalFlashcards((prevFlashcards) =>
+                prevFlashcards.filter((flashCard) => flashCard.id !== id)
+            )
+        }, 2000)
     }
 
     useEffect(() => {
