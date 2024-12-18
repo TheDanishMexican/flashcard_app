@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useFlashCardFront } from '@/hooks/useFlashCardFront'
 import styles from '../styles/flashCardFrontStyles'
 import React from 'react'
-import { FontAwesome } from '@expo/vector-icons'
 
 export default function FlashCardFront({
     flashcard,
+    clickedDelete,
 }: {
     flashcard: FlashCard
+    clickedDelete: (id: string) => void
 }) {
     const { toggleFlip, isFlipped, hasSubject, setHasSubject } =
         useFlashCardFront()
@@ -48,23 +49,21 @@ export default function FlashCardFront({
                 style={[
                     styles.card,
                     {
-                        transform: [
-                            { rotateY: frontRotation }, // Apply front rotation
-                        ],
+                        transform: [{ rotateY: frontRotation }],
                     },
                 ]}
             >
-                <Text style={styles.questionText}>{flashcard.question}</Text>
                 <Pressable
-                    style={{
-                        backgroundColor: '#87cefa',
-                        padding: 5,
-                        borderRadius: 10,
-                        marginTop: 10,
+                    style={styles.deleteButton}
+                    onPress={() => {
+                        clickedDelete(flashcard.id)
                     }}
-                    onPress={toggleFloop}
                 >
-                    <Text style={{ color: 'white' }}>Flip me</Text>
+                    <Text style={styles.deleteButtonText}>X</Text>
+                </Pressable>
+                <Text style={styles.questionText}>{flashcard.question}</Text>
+                <Pressable style={styles.flipButton} onPress={toggleFloop}>
+                    <Text style={styles.flipButtonText}>Flip me</Text>
                 </Pressable>
             </Animated.View>
 
@@ -73,15 +72,21 @@ export default function FlashCardFront({
                     style={[
                         styles.card,
                         {
-                            transform: [
-                                { rotateY: backRotation }, // Apply back rotation
-                            ],
+                            transform: [{ rotateY: backRotation }],
                             position: !isFlippeded.current
                                 ? 'absolute'
-                                : 'relative', // Show only when flipped
+                                : 'relative',
                         },
                     ]}
                 >
+                    <Pressable
+                        style={styles.deleteButton}
+                        onPress={() => {
+                            clickedDelete(flashcard.id)
+                        }}
+                    >
+                        <Text style={styles.deleteButtonText}>X</Text>
+                    </Pressable>
                     <FlashCardBack
                         flashcard={flashcard}
                         toggleFloop={toggleFloop}

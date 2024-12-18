@@ -43,7 +43,9 @@ export default function setListRenderer() {
                         <View style={styles.buttonCtn}>
                             <View>
                                 <Pressable onPress={() => router.back()}>
-                                    <Text style={styles.button}>Go back</Text>
+                                    <Text style={styles.button}>
+                                        Back to overview
+                                    </Text>
                                 </Pressable>
                             </View>
                             <View>

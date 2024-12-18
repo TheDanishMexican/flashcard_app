@@ -23,12 +23,18 @@ export default function listRenderer() {
         handleFormSubmit,
         formClasses,
         showForm,
-        setLoading,
+        deleteFlashCard,
     } = useFlashCardPage()
     const [localFlashcards, setLocalFlashcards] = useState<FlashCard[]>([])
-
     const { setName } = useLocalSearchParams() as { setName: string }
     const router = useRouter()
+
+    async function clickedDelete(id: string) {
+        await deleteFlashCard(id)
+        setLocalFlashcards((prevFlashcards) =>
+            prevFlashcards.filter((flashCard) => flashCard.id !== id)
+        )
+    }
 
     useEffect(() => {
         const filtered = flashCards.filter((crd) => crd.class === setName)
@@ -56,7 +62,9 @@ export default function listRenderer() {
                     <View style={styles.buttonCtn}>
                         <View>
                             <Pressable onPress={() => router.back()}>
-                                <Text style={styles.button}>Go back</Text>
+                                <Text style={styles.button}>
+                                    Back to collections
+                                </Text>
                             </Pressable>
                         </View>
                         <View>
@@ -68,9 +76,7 @@ export default function listRenderer() {
                         </View>
                     </View>
                     <View style={styles.titleCnt}>
-                        <Text style={styles.title}>
-                            "{setName}" - flashcards
-                        </Text>
+                        <Text style={styles.title}>{setName}</Text>
                     </View>
                     {!localFlashcards.length && (
                         <Text style={{ color: 'red' }}>
@@ -83,7 +89,10 @@ export default function listRenderer() {
                             data={localFlashcards}
                             keyExtractor={(item: FlashCard) => item.id}
                             renderItem={({ item }) => (
-                                <FlashCardFront flashcard={item} />
+                                <FlashCardFront
+                                    flashcard={item}
+                                    clickedDelete={clickedDelete}
+                                />
                             )}
                             showsVerticalScrollIndicator={false}
                             showsHorizontalScrollIndicator={false}

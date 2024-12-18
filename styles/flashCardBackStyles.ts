@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     card: {
-        marginBottom: 20,
+        marginBottom: 100,
         width: 300,
         height: 200,
         backgroundColor: '#fff',
@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
         textAlign: 'center', // Center the answer text
         color: '#555', // Slightly lighter color for the answer
         lineHeight: 28, // Line height for better readability
+        maxWidth: '100%',
+        maxHeight: '100%',
+        padding: 10,
     },
 })
 

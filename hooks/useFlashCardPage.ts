@@ -45,6 +45,15 @@ export function useFlashCardPage() {
         }
     }
 
+    async function deleteFlashCard(flashcardId: string) {
+        try {
+            await deleteDoc(doc(FIREBASE_DB, 'flashcards', flashcardId))
+            return flashcardId
+        } catch (error) {
+            console.log('error while deleting flashcard: ', error)
+        }
+    }
+
     async function fetchFlashCards() {
         setLoading(true)
         //apparently data could be undefined or empty arr even though I have error handling so I need the conditional for typescript to be happy
@@ -223,5 +232,6 @@ export function useFlashCardPage() {
         flashCardCreated,
         setLoading,
         deleteCollection,
+        deleteFlashCard,
     }
 }
