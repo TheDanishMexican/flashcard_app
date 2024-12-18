@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         textAlign: 'center', // Center the text
         color: '#333', // Dark gray for contrast
         lineHeight: 28, // Space between lines for readability
+        maxWidth: 250,
     },
 })
 

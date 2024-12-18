@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         fontWeight: 'normal', // Regular weight for answer
         textAlign: 'center', // Center the answer text
         color: '#555', // Slightly lighter color for the answer
-        lineHeight: 24, // Line height for better readability
+        lineHeight: 28, // Line height for better readability
     },
 })
 
