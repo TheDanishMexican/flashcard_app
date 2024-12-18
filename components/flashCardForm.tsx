@@ -38,7 +38,9 @@ export default function FlashCardForm({
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={styles.container}>
                         <View>
-                            <Text style={styles.title}>Add flashcard</Text>
+                            <Text style={styles.title}>
+                                Create new flashcard
+                            </Text>
                             {/* <Pressable onPress={toggleModal}>
                                 <FontAwesome
                                     style={{ textAlign: 'center' }}

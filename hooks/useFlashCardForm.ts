@@ -5,6 +5,8 @@ import Class from '@/interfaces/class'
 import Subject from '@/interfaces/subject'
 
 export function useFlashCardForm() {
+    const [collectionExists, setCollectionExists] = useState(false)
+    const [emptyInput, setEmptyInput] = useState(false)
     const [selectedClass, setSelectedClass] = useState<Class | null>(null)
     const [subjectSelected, setSubjectSelected] = useState<string | null>(null)
     const [flashCard, setFlashCard] = useState<FlashCard>({
@@ -89,6 +91,23 @@ export function useFlashCardForm() {
         }
     }
 
+    function validateInputCollectionForm(classes: Class[]) {
+        const matchingClass = classes.find(
+            (cls: Class) => cls.name === flashCard.class
+        )
+        if (matchingClass) {
+            setEmptyInput(false)
+            setCollectionExists(true)
+            return false
+        }
+
+        if (flashCard.class === '') {
+            setCollectionExists(false)
+            setEmptyInput(true)
+            return false
+        }
+    }
+
     return {
         flashCard,
         handleInputChange,
@@ -99,5 +118,10 @@ export function useFlashCardForm() {
         errors,
         setErrors,
         validateInput,
+        collectionExists,
+        setCollectionExists,
+        emptyInput,
+        setEmptyInput,
+        validateInputCollectionForm,
     }
 }

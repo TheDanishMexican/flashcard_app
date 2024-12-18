@@ -22,6 +22,9 @@ export default function FlashcardPage() {
                             See flashcard collections
                         </Text>
                     </Pressable>
+                    <Pressable onPress={() => console.log('ready to quiz?')}>
+                        <Text style={styles.button}>Try quiz mode</Text>
+                    </Pressable>
                 </View>
             </View>
         </>

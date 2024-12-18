@@ -12,13 +12,27 @@ import styles from '@/styles/listStyles'
 import Class from '@/interfaces/class'
 import FlashcardSetItem from '@/components/flashcardSetItem'
 import { useRouter } from 'expo-router'
+import CollectionForm from '@/components/collectionForm'
 
 export default function setListRenderer() {
-    const { formClasses, loading } = useFlashCardPage()
+    const {
+        formClasses,
+        loading,
+        showForm,
+        toggleForm,
+        postNewClassForFlashcard,
+    } = useFlashCardPage()
     const router = useRouter()
     return (
         <>
             <SafeAreaView style={styles.container}>
+                {showForm && (
+                    <CollectionForm
+                        classes={formClasses}
+                        toggleForm={toggleForm}
+                        postNewCollection={postNewClassForFlashcard}
+                    />
+                )}
                 {loading ? (
                     <ActivityIndicator />
                 ) : (
@@ -30,9 +44,9 @@ export default function setListRenderer() {
                                 </Pressable>
                             </View>
                             <View>
-                                <Pressable>
+                                <Pressable onPress={toggleForm}>
                                     <Text style={styles.button}>
-                                        Add collection
+                                        Create new collection
                                     </Text>
                                 </Pressable>
                             </View>

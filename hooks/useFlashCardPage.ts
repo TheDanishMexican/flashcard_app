@@ -65,7 +65,7 @@ export function useFlashCardPage() {
         }
 
         loadClasses()
-    }, [])
+    }, [showForm])
 
     async function getFormClasses() {
         try {

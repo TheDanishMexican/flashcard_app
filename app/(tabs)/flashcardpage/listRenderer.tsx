@@ -60,7 +60,9 @@ export default function listRenderer() {
                         </View>
                         <View>
                             <Pressable onPress={toggleForm}>
-                                <Text style={styles.button}>Add flashcard</Text>
+                                <Text style={styles.button}>
+                                    Create new flashcard
+                                </Text>
                             </Pressable>
                         </View>
                     </View>
