@@ -6,8 +6,8 @@ import { useState } from 'react'
 
 export function useLogin() {
     const { signIn, signUp } = useAuth()
-    const [email, onChangeText] = useState('lollol@hotmail.com')
-    const [password, onChangeNumber] = useState('abc123')
+    const [email, onChangeText] = useState('')
+    const [password, onChangeNumber] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [showUsername, setShowUsername] = useState(false)
     const router = useRouter()

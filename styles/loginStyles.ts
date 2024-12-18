@@ -11,9 +11,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: '#fff',
     },
+    logo: {
+        width: 300,
+        height: 300,
+        borderRadius: 350,
+        marginTop: 100,
+    },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 16,
     },

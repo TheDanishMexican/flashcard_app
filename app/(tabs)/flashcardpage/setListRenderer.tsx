@@ -61,6 +61,12 @@ export default function setListRenderer() {
                                 Click collection to study
                             </Text>
                         </View>
+                        {!formClasses.length && (
+                            <Text style={{ color: 'red' }}>
+                                No collections yet, create one by clicking
+                                "create new collection"
+                            </Text>
+                        )}
                         <View style={styles.listCnt}>
                             <FlatList
                                 data={formClasses}

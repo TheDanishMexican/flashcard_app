@@ -96,7 +96,7 @@ export function useFlashCardPage() {
 
     async function getFormClasses() {
         try {
-            const q = query(classesRef)
+            const q = query(classesRef, where('userId', '==', user!.uid))
             const querySnapshot = await getDocs(q)
             const formClassesArr: Class[] = []
 

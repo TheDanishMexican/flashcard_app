@@ -1,4 +1,10 @@
-import { ActivityIndicator, Pressable, Text, TextInput } from 'react-native'
+import {
+    ActivityIndicator,
+    Image,
+    Pressable,
+    Text,
+    TextInput,
+} from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { View, Button } from 'react-native'
 import { useLogin } from '@/hooks/useLogin'
@@ -85,6 +91,10 @@ export default function LoginPage() {
                     </Pressable>
                 </Link>
             </View>
+            <Image
+                style={styles.logo}
+                source={require('../assets/images/logo.webp')}
+            />
         </View>
     )
 }

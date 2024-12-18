@@ -12,11 +12,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue',
         padding: 10,
         borderRadius: 5,
-        width: '100%',
+        width: '90%',
         alignItems: 'center',
         marginBottom: 10,
         marginTop: 20,
         color: 'white',
+        margin: 'auto',
         textAlign: 'center',
     },
     buttonCtn: {

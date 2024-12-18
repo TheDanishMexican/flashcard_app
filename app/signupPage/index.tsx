@@ -5,6 +5,7 @@ import {
     Button,
     StyleSheet,
     Pressable,
+    Image,
 } from 'react-native'
 import SuccessMessage from '@/components/successMessage'
 import { useSignUp } from '@/hooks/useSignUp'
@@ -57,6 +58,10 @@ export default function SignupPage() {
                     <Text style={styles.button}>Sign up</Text>
                 </Pressable>
             </View>
+            <Image
+                style={styles.logo}
+                source={require('../../assets/images/logo.webp')}
+            />
         </View>
     )
 }
@@ -65,9 +70,15 @@ const styles = StyleSheet.create({
     buttonCtn: {
         width: '100%',
     },
+    logo: {
+        width: 300,
+        height: 300,
+        borderRadius: 350,
+        marginTop: 100,
+    },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 16,
     },
