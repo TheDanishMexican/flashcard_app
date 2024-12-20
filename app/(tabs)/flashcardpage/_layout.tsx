@@ -23,6 +23,10 @@ export default function RootLayout() {
                     name="setListRenderer"
                     options={{ headerShown: false, title: 'Flashcards' }}
                 />
+                <Stack.Screen
+                    name="quizModePage"
+                    options={{ headerShown: false, title: 'Flashcards' }}
+                />
             </Stack>
         </>
     )

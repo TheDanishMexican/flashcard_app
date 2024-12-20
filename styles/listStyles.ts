@@ -36,6 +36,40 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         alignItems: 'center',
     },
+    input: {
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        width: '90%',
+        marginBottom: 10,
+        marginTop: 20,
+        margin: 'auto',
+    },
+    correctAnswerBtn: {
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        width: '90%',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginTop: 20,
+        color: 'white',
+        margin: 'auto',
+        textAlign: 'center',
+    },
+    explanation: {
+        margin: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
+    line: {
+        borderWidth: 2,
+        color: 'black',
+        marginRight: 30,
+        marginLeft: 30,
+        backgroundColor: 'black',
+    },
 })
 
 export default styles

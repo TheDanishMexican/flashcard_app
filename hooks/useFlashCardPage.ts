@@ -25,6 +25,7 @@ export function useFlashCardPage() {
     const [formClasses, setFormClasses] = useState<Class[]>([])
     const [flashCardCreated, setFlashcardCreated] = useState(false)
     const [updateState, setUpdateState] = useState(false)
+    const [filteredFlashcards, setFilteredFlashcard] = useState<FlashCard[]>([])
 
     async function deleteCollection(collectionName: string, userId: string) {
         try {
@@ -60,6 +61,12 @@ export function useFlashCardPage() {
         const data: FlashCard[] = (await getFlashCards()) || []
         setFlashCards(data)
         setLoading(false)
+    }
+
+    function filterFlashcards(setName: string) {
+        const filtered = flashCards.filter((crd) => crd.class === setName)
+
+        setFilteredFlashcard(filtered)
     }
 
     async function getFlashCards() {
@@ -233,5 +240,7 @@ export function useFlashCardPage() {
         setLoading,
         deleteCollection,
         deleteFlashCard,
+        filterFlashcards,
+        filteredFlashcards,
     }
 }

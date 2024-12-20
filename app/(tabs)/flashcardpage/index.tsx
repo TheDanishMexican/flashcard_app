@@ -22,9 +22,15 @@ export default function FlashcardPage() {
                             See flashcard collections
                         </Text>
                     </Pressable>
-                    <Pressable onPress={() => console.log('ready to quiz?')}>
+                    {/* <Pressable
+                        onPress={() =>
+                            router.navigate(
+                                '/(tabs)/flashcardpage/quizModePage'
+                            )
+                        }
+                    >
                         <Text style={styles.button}>Try quiz mode</Text>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
             </View>
         </>

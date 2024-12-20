@@ -24,6 +24,7 @@ export default function listRenderer() {
         formClasses,
         showForm,
         deleteFlashCard,
+        filterFlashcards,
     } = useFlashCardPage()
     const [localFlashcards, setLocalFlashcards] = useState<FlashCard[]>([])
     const { setName } = useLocalSearchParams() as { setName: string }
@@ -74,6 +75,19 @@ export default function listRenderer() {
                                 <Text style={styles.button}>
                                     Create new flashcard
                                 </Text>
+                            </Pressable>
+                        </View>
+                        <View>
+                            <Pressable
+                                onPress={() => {
+                                    router.navigate({
+                                        pathname:
+                                            '/(tabs)/flashcardpage/quizModePage',
+                                        params: { setName },
+                                    })
+                                }}
+                            >
+                                <Text style={styles.button}>Quiz mode</Text>
                             </Pressable>
                         </View>
                     </View>
