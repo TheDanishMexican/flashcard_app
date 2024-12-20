@@ -8,7 +8,6 @@ export default function SuccessMessage() {
                 style={{
                     backgroundColor: 'green',
                     padding: 10,
-                    marginBottom: 50,
                 }}
             >
                 <Text style={{ color: 'white' }}>Succes</Text>

@@ -1,38 +1,83 @@
-import React from 'react'
-import FlashCardForm from '@/components/flashCardForm'
-import { Button, Pressable, Text, View } from 'react-native'
-import styles from '../../../styles/flashCardPageStyles'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
-import { Link, useRouter } from 'expo-router'
-import SuccessMessage from '@/components/successMessage'
+import React from 'react'
+import {
+    ActivityIndicator,
+    FlatList,
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native'
+import styles from '@/styles/listStyles'
+import Class from '@/interfaces/class'
+import FlashcardSetItem from '@/components/flashcardSetItem'
+import { useRouter } from 'expo-router'
+import CollectionForm from '@/components/collectionForm'
 
-export default function FlashcardPage() {
+export default function setListRenderer() {
+    const {
+        formClasses,
+        loading,
+        showForm,
+        toggleForm,
+        postNewClassForFlashcard,
+        deleteCollection,
+    } = useFlashCardPage()
+
     const router = useRouter()
-
     return (
         <>
-            <View style={styles.container}>
-                <View style={styles.buttonCtn}>
-                    <Pressable
-                        onPress={() =>
-                            router.push('/(tabs)/flashcardpage/setListRenderer')
-                        }
-                    >
-                        <Text style={styles.button}>
-                            See flashcard collections
-                        </Text>
-                    </Pressable>
-                    {/* <Pressable
-                        onPress={() =>
-                            router.navigate(
-                                '/(tabs)/flashcardpage/quizModePage'
-                            )
-                        }
-                    >
-                        <Text style={styles.button}>Try quiz mode</Text>
-                    </Pressable> */}
-                </View>
-            </View>
+            <SafeAreaView style={styles.container}>
+                {showForm && (
+                    <CollectionForm
+                        classes={formClasses}
+                        toggleForm={toggleForm}
+                        postNewCollection={postNewClassForFlashcard}
+                    />
+                )}
+                {loading ? (
+                    <ActivityIndicator />
+                ) : (
+                    <>
+                        <View style={styles.buttonCtn}>
+                            <View>
+                                <Pressable onPress={toggleForm}>
+                                    <Text style={styles.button}>
+                                        Create new collection
+                                    </Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                        <View style={styles.titleCnt}>
+                            <Text style={styles.title}>
+                                Click collection to study
+                            </Text>
+                        </View>
+                        {!formClasses.length && (
+                            <Text style={{ color: 'red' }}>
+                                No collections yet, create one by clicking
+                                "create new collection"
+                            </Text>
+                        )}
+                        <View style={styles.listCnt}>
+                            <FlatList
+                                data={formClasses}
+                                keyExtractor={(category: Class) => category.id}
+                                renderItem={({ item }: { item: Class }) => (
+                                    <FlashcardSetItem
+                                        category={item}
+                                        deleteCollection={deleteCollection}
+                                    />
+                                )}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                numColumns={2}
+                            />
+                        </View>
+                    </>
+                )}
+            </SafeAreaView>
         </>
     )
 }

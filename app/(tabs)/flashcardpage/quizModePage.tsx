@@ -51,7 +51,8 @@ export default function QuizModePage() {
         if (
             filteredFlashcards[
                 currentFlashcardIndex
-            ].class.toLocaleUpperCase() === userInput.toLocaleUpperCase().trim()
+            ].question.toLocaleUpperCase() ===
+            userInput.toLocaleUpperCase().trim()
         ) {
             console.log('you guessed it')
             setCorrectAnswer(true)
@@ -124,7 +125,6 @@ export default function QuizModePage() {
                             <View
                                 style={{
                                     backgroundColor: 'red',
-                                    marginBottom: 50,
                                     padding: 10,
                                 }}
                             >

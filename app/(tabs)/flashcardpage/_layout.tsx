@@ -20,10 +20,6 @@ export default function RootLayout() {
                     options={{ headerShown: false, title: 'Flashcards' }}
                 />
                 <Stack.Screen
-                    name="setListRenderer"
-                    options={{ headerShown: false, title: 'Flashcards' }}
-                />
-                <Stack.Screen
                     name="quizModePage"
                     options={{ headerShown: false, title: 'Flashcards' }}
                 />
