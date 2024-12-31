@@ -2,7 +2,7 @@
 
 This is my first app project and it was developed for my 4th semester React Native class.
 I set out to create a flashcard app, with a simple quiz mode.
-The app is setup to use Firebase for the authentication and database functionalities.
+The app is setup to use Firebase ("firestore database" & "authentication" products) for the authentication and database functionalities.
 
 ## Get started
 
