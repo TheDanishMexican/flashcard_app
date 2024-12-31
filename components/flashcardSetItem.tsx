@@ -1,4 +1,3 @@
-import Class from '@/interfaces/class'
 import React from 'react'
 import { Pressable, Text, View, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'

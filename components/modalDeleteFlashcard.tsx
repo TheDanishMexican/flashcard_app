@@ -1,7 +1,5 @@
 import { useAuth } from '@/context/authContext'
-import { useModal } from '@/hooks/useModal'
 import ModaelDeleteFlashcardsProps from '@/interfaces/modalDeleteFlashcardsProps'
-import DynamicModalProps from '@/interfaces/dynamicModalProps'
 import React, { useState } from 'react'
 import { Modal, Text, View, StyleSheet, Pressable } from 'react-native'
 

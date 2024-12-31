@@ -5,7 +5,6 @@ import {
     FlatList,
     Pressable,
     SafeAreaView,
-    StyleSheet,
     Text,
     View,
 } from 'react-native'

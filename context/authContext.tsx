@@ -117,7 +117,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     )
 }
 
-// Custom hook to use auth context
-export const useAuth = () => {
+export function useAuth() {
     return useContext(AuthContext)
 }

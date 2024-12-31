@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from '@/context/authContext'
-import { Tabs, useRouter } from 'expo-router'
+import { Tabs } from 'expo-router'
 import { Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 

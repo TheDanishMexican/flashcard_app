@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFlashCardForm } from '@/hooks/useFlashCardForm'
 import {
     View,
     TextInput,
     Button,
     Text,
-    Pressable,
     TouchableWithoutFeedback,
     Keyboard,
     Modal,
@@ -19,7 +18,6 @@ import SuccessMessage from './successMessage'
 
 export default function FlashCardForm({
     toggleForm,
-    classes,
     handleFormSubmit,
     categoryName,
 }: FlashCardFormProps) {
@@ -27,7 +25,6 @@ export default function FlashCardForm({
         handleInputChange,
         flashCard,
         errors,
-        setErrors,
         validateInput,
         succesMessage,
         setSuccessMessage,
@@ -44,26 +41,7 @@ export default function FlashCardForm({
                             <Text style={styles.title}>
                                 Create new flashcard
                             </Text>
-                            {/* <Pressable onPress={toggleModal}>
-                                <FontAwesome
-                                    style={{ textAlign: 'center' }}
-                                    name="info-circle"
-                                    size={34}
-                                />
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        marginBottom: 10,
-                                    }}
-                                >
-                                    Click me
-                                </Text>
-                            </Pressable> */}
                         </View>
-
-                        {/* {modalVisible && (
-                            <ExplainText toggleModal={toggleModal} />
-                        )} */}
 
                         {errors.question === '' ? (
                             <>
@@ -128,121 +106,6 @@ export default function FlashCardForm({
                                 </View>
                             </>
                         )}
-                        {/* {errors.class === '' ? (
-                            <>
-                                <Text>Category</Text>
-                                <View style={styles.pickerContainer}>
-                                    <Picker
-                                        itemStyle={{ height: 50 }}
-                                        style={styles.picker}
-                                        onValueChange={(selectedClass: Class) =>
-                                            handleClassSelected(selectedClass)
-                                        }
-                                    >
-                                        <Picker.Item
-                                            label="Select a category"
-                                            value={{
-                                                name: 'null',
-                                            }}
-                                        />
-                                        {classes.map((cls) => (
-                                            <Picker.Item
-                                                key={cls.id}
-                                                label={cls.name}
-                                                value={cls}
-                                            />
-                                        ))}
-                                    </Picker>
-                                </View>
-                            </>
-                        ) : (
-                            <>
-                                <Text style={{ color: 'red' }}>
-                                    Please select or fill out
-                                </Text>
-                                <Text>Category</Text>
-                                <View style={styles.pickerContainer}>
-                                    <Picker
-                                        style={styles.picker}
-                                        onValueChange={(selectedClass: Class) =>
-                                            handleClassSelected(selectedClass)
-                                        }
-                                    >
-                                        <Picker.Item
-                                            label="Select a category"
-                                            value={{
-                                                name: 'null',
-                                            }}
-                                        />
-                                        {classes.map((cls) => (
-                                            <Picker.Item
-                                                key={cls.id}
-                                                label={cls.name}
-                                                value={cls}
-                                            />
-                                        ))}
-                                    </Picker>
-                                </View>
-                            </>
-                        )}
-                        {!selectedClass && (
-                            <>
-                                <Text>OR</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Add a new category"
-                                    value={flashCard.class}
-                                    onChangeText={(text) =>
-                                        handleInputChange('class', text)
-                                    }
-                                />
-                            </>
-                        )} */}
-
-                        {/* {selectedClass && (
-                        <>
-                            <Text>Subject</Text>
-                            <View style={styles.pickerContainer}>
-                                <Picker
-                                    style={styles.picker}
-                                    selectedValue={subjectSelected || undefined}
-                                    onValueChange={(
-                                        selectedSubject: string
-                                    ) => {
-                                        handleSubjectSelected(selectedSubject)
-                                    }}
-                                >
-                                    <Picker.Item
-                                        label="Select a subject"
-                                        value={'null'}
-                                    />
-                                    {selectedClass.subjects?.map((subject) => (
-                                        <Picker.Item
-                                            key={subject.name}
-                                            label={subject.name}
-                                            value={subject.name}
-                                        />
-                                    ))}
-                                </Picker>
-                            </View>
-                            {/*trouble shooting on ios */}
-
-                        {/* {!subjectSelected && (
-                                <>
-                                    <Text>OR</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Add a new subject"
-                                        value={flashCard.subject}
-                                        onChangeText={(text) =>
-                                            handleInputChange('subject', text)
-                                        }
-                                    />
-                                </>
-                            )}
-                        </>
-                    )} */}
-
                         <Button
                             title="Create FlashCard"
                             onPress={() => {

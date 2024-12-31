@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 16,
     },
@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
     },
     buttonCtn: {
         width: '100%',
+    },
+    logo: {
+        width: 300,
+        height: 300,
+        borderRadius: 350,
+        marginTop: 60,
     },
 })
 

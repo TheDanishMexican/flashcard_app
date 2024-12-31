@@ -1,7 +1,7 @@
 import FlashCard from '@/interfaces/flashCard'
-import { View, Text, Animated, Pressable } from 'react-native'
+import { Text, Pressable } from 'react-native'
 import styles from '../styles/flashCardBackStyles'
-import React, { useRef } from 'react'
+import React from 'react'
 
 export default function FlashCardBack({
     flashcard,

@@ -6,11 +6,10 @@ import {
     TextInput,
 } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { View, Button } from 'react-native'
+import { View } from 'react-native'
 import { useLogin } from '@/hooks/useLogin'
 import styles from '../styles/loginStyles'
 import { Link } from 'expo-router'
-import SuccessMessage from '@/components/successMessage'
 
 export default function LoginPage() {
     const {

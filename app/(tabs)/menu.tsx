@@ -1,4 +1,4 @@
-import { Button, Pressable, Text, View } from 'react-native'
+import { Button, Image, Pressable, Text, View } from 'react-native'
 import { useAuth } from '../../context/authContext'
 import styles from '@/styles/menuStyles'
 
@@ -9,7 +9,7 @@ export default function Menu() {
         <View style={styles.container}>
             <View
                 style={{
-                    marginBottom: 10,
+                    marginBottom: 50,
                     marginLeft: 10,
                     marginRight: 10,
                     alignContent: 'center',
@@ -22,6 +22,7 @@ export default function Menu() {
                     "flashcard" icon at the bottom of the page.
                 </Text>
             </View>
+
             <View style={styles.buttonCtn}>
                 <Pressable onPress={logout}>
                     <Text style={styles.button}>Log out</Text>
@@ -33,6 +34,10 @@ export default function Menu() {
                     <Text style={styles.button}>Settings</Text>
                 </Pressable>
             </View>
+            <Image
+                style={styles.logo}
+                source={require('../../assets/images/logo.webp')}
+            />
         </View>
     )
 }

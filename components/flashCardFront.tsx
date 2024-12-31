@@ -8,6 +8,8 @@ import React from 'react'
 import { useModal } from '@/hooks/useModal'
 import ModalDeleteFlashcard from './modalDeleteFlashcard'
 
+//EXPLAIN HOW TO ANIMATION WORKS
+
 export default function FlashCardFront({
     flashcard,
     clickedDelete,
@@ -15,9 +17,8 @@ export default function FlashCardFront({
     flashcard: FlashCard
     clickedDelete: (id: string) => void
 }) {
-    const { toggleFlip, isFlipped, hasSubject, setHasSubject } =
-        useFlashCardFront()
-    const { toggleModal, modalVisible, modalText } = useModal()
+    const { toggleFlip, isFlipped } = useFlashCardFront()
+    const { toggleModal, modalVisible } = useModal()
 
     const rotation = useRef(new Animated.Value(0)).current
     const isFlippeded = useRef(false)
