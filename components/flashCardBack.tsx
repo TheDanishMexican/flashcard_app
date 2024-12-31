@@ -22,7 +22,7 @@ export default function FlashCardBack({
                 }}
                 onPress={toggleFloop}
             >
-                <Text style={{ color: 'white' }}>Flip me</Text>
+                <Text style={{ color: 'white' }}>See question</Text>
             </Pressable>
         </>
     )

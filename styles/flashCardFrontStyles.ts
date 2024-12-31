@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     card: {
         marginBottom: 20,
         width: 300,
-        height: 200,
+        height: 300,
         backgroundColor: '#fff',
         borderRadius: 10,
         justifyContent: 'center',

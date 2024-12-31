@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     answerText: {
-        fontSize: 18, // Slightly smaller font size for the answer
-        fontWeight: 'normal', // Regular weight for answer
-        textAlign: 'center', // Center the answer text
-        color: '#555', // Slightly lighter color for the answer
-        lineHeight: 28, // Line height for better readability
+        fontSize: 18,
+        fontWeight: 'normal',
+        textAlign: 'center',
+        color: '#555',
+        lineHeight: 28,
         maxWidth: '100%',
         maxHeight: '100%',
         padding: 10,

@@ -1,12 +1,11 @@
 import FlashCard from '@/interfaces/flashCard'
-import { Text, Pressable, View, Animated } from 'react-native'
+import { Text, Pressable, Animated } from 'react-native'
 import FlashCardBack from './flashCardBack'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useFlashCardFront } from '@/hooks/useFlashCardFront'
 import styles from '../styles/flashCardFrontStyles'
 import React from 'react'
 import { useModal } from '@/hooks/useModal'
-import DynamicModal from './dynamicModal'
 import ModalDeleteFlashcard from './modalDeleteFlashcard'
 
 export default function FlashCardFront({
@@ -28,7 +27,7 @@ export default function FlashCardFront({
 
         Animated.timing(rotation, {
             toValue,
-            duration: 500,
+            duration: 200,
             useNativeDriver: true,
         }).start(() => {
             isFlippeded.current = !isFlippeded.current
@@ -75,7 +74,7 @@ export default function FlashCardFront({
                 </Pressable>
                 <Text style={styles.questionText}>{flashcard.question}</Text>
                 <Pressable style={styles.flipButton} onPress={toggleFloop}>
-                    <Text style={styles.flipButtonText}>Flip me</Text>
+                    <Text style={styles.flipButtonText}>See answer</Text>
                 </Pressable>
             </Animated.View>
 

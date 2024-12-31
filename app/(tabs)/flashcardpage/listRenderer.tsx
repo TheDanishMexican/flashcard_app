@@ -77,19 +77,21 @@ export default function listRenderer() {
                                 </Text>
                             </Pressable>
                         </View>
-                        <View>
-                            <Pressable
-                                onPress={() => {
-                                    router.navigate({
-                                        pathname:
-                                            '/(tabs)/flashcardpage/quizModePage',
-                                        params: { setName },
-                                    })
-                                }}
-                            >
-                                <Text style={styles.button}>Quiz mode</Text>
-                            </Pressable>
-                        </View>
+                        {localFlashcards.length > 0 && (
+                            <View>
+                                <Pressable
+                                    onPress={() => {
+                                        router.navigate({
+                                            pathname:
+                                                '/(tabs)/flashcardpage/quizModePage',
+                                            params: { setName },
+                                        })
+                                    }}
+                                >
+                                    <Text style={styles.button}>Quiz mode</Text>
+                                </Pressable>
+                            </View>
+                        )}
                     </View>
                     <View style={styles.titleCnt}>
                         <Text style={styles.title}>{setName}</Text>

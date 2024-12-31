@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     explanation: {
-        margin: 25,
+        margin: 10,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
     },

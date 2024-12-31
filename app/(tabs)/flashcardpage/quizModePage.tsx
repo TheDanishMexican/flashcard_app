@@ -1,18 +1,18 @@
-import FlashCardFront from '@/components/flashCardFront'
 import QuizFlashCard from '@/components/quizFlashcard'
 import SuccessMessage from '@/components/successMessage'
 import { useFlashCardPage } from '@/hooks/useFlashCardPage'
-import FlashCard from '@/interfaces/flashCard'
 import styles from '@/styles/listStyles'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import {
     ActivityIndicator,
+    Keyboard,
     Pressable,
     SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
+    TouchableWithoutFeedback,
     View,
 } from 'react-native'
 
@@ -24,6 +24,7 @@ export default function QuizModePage() {
         fetchFlashCards,
         flashCards,
     } = useFlashCardPage()
+    const [showSolution, setShowSolution] = useState(false)
     const [userInput, setUserInput] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState(false)
     const [incorrectAnswer, setIncorrectAnswer] = useState(false)
@@ -72,70 +73,116 @@ export default function QuizModePage() {
 
     return (
         <>
-            <SafeAreaView style={stylesLocal.container}>
-                {loading ? (
-                    <ActivityIndicator />
-                ) : (
-                    <>
-                        <View style={styles.buttonCtn}>
-                            <View>
-                                <Pressable onPress={() => router.back()}>
-                                    <Text style={styles.button}>
-                                        Back to flashcards
-                                    </Text>
-                                </Pressable>
-                                <Pressable onPress={checkIfCorrect}>
-                                    <Text style={styles.correctAnswerBtn}>
-                                        Check if correct
-                                    </Text>
-                                </Pressable>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <SafeAreaView style={stylesLocal.container}>
+                    {loading ? (
+                        <ActivityIndicator />
+                    ) : (
+                        <>
+                            <View style={styles.buttonCtn}>
+                                <View>
+                                    <Pressable onPress={() => router.back()}>
+                                        <Text style={styles.button}>
+                                            Back to flashcards
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable onPress={checkIfCorrect}>
+                                        <Text style={styles.correctAnswerBtn}>
+                                            Check guess
+                                        </Text>
+                                    </Pressable>
+                                </View>
                             </View>
-                        </View>
-                        <Text style={styles.explanation}>
-                            Welcome to the quiz mode. Below you see the
-                            flashcard answer (back of the card) and you are
-                            supposed to guess the what the correct "question" is
-                            (front of the card).
-                        </Text>
-                        <View style={styles.line}></View>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Write your guess here"
-                            value={userInput}
-                            onChangeText={setUserInput}
-                        />
-                        {filteredFlashcards.length > 0 && (
-                            <View style={styles.listCnt}>
-                                <QuizFlashCard
-                                    flashcard={
-                                        filteredFlashcards[
-                                            currentFlashcardIndex
-                                        ]
-                                    }
-                                />
-                                <Pressable onPress={nextFlashcard}>
-                                    <Text style={styles.button}>
-                                        Next flashcard
+                            <Text style={styles.explanation}>
+                                Welcome to the quiz mode.
+                            </Text>
+                            <View style={styles.line}></View>
+                            <Text style={styles.explanation}>
+                                Guess the "question" corresponding to the
+                                "answer" below.
+                            </Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Write your guess here"
+                                value={userInput}
+                                onChangeText={setUserInput}
+                            />
+                            {filteredFlashcards.length > 0 && (
+                                <View style={styles.listCnt}>
+                                    <QuizFlashCard
+                                        flashcard={
+                                            filteredFlashcards[
+                                                currentFlashcardIndex
+                                            ]
+                                        }
+                                        showSolution={showSolution}
+                                    />
+
+                                    <View
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-around',
+                                            gap: 10,
+                                        }}
+                                    >
+                                        {!showSolution ? (
+                                            <Pressable
+                                                onPress={() =>
+                                                    setShowSolution(
+                                                        (prev) => !prev
+                                                    )
+                                                }
+                                            >
+                                                <Text style={styles.button}>
+                                                    Show solution
+                                                </Text>
+                                            </Pressable>
+                                        ) : (
+                                            <Pressable
+                                                onPress={() =>
+                                                    setShowSolution(
+                                                        (prev) => !prev
+                                                    )
+                                                }
+                                            >
+                                                <Text style={styles.button}>
+                                                    Hide solution
+                                                </Text>
+                                            </Pressable>
+                                        )}
+                                        {!showSolution && (
+                                            <Pressable onPress={nextFlashcard}>
+                                                <Text style={styles.button}>
+                                                    Next flashcard
+                                                </Text>
+                                            </Pressable>
+                                        )}
+                                    </View>
+                                </View>
+                            )}
+                            {correctAnswer && (
+                                <View style={{ position: 'absolute' }}>
+                                    <SuccessMessage />
+                                </View>
+                            )}
+                            {incorrectAnswer && (
+                                <View
+                                    style={{
+                                        backgroundColor: 'red',
+                                        padding: 10,
+                                        position: 'absolute',
+                                    }}
+                                >
+                                    <Text style={{ color: 'white' }}>
+                                        Incorrect answer, try again
                                     </Text>
-                                </Pressable>
-                            </View>
-                        )}
-                        {correctAnswer && <SuccessMessage />}
-                        {incorrectAnswer && (
-                            <View
-                                style={{
-                                    backgroundColor: 'red',
-                                    padding: 10,
-                                }}
-                            >
-                                <Text style={{ color: 'white' }}>
-                                    Incorrect answer, try again
-                                </Text>
-                            </View>
-                        )}
-                    </>
-                )}
-            </SafeAreaView>
+                                </View>
+                            )}
+                        </>
+                    )}
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
         </>
     )
 }
